@@ -7,8 +7,8 @@ public static class DimensionConverter
         return new Vector3(input.x, y, input.y);
     }
 
-    public static Vector3 XYZtoXZ(Vector2 input)
+    public static Vector3 XYZtoXZ(Vector3 input)
     {
-        return new Vector2(input.X, input.Z);
+        return new Vector2(input.x, input.z);
     }
 }
