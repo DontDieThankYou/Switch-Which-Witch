@@ -183,6 +183,7 @@ GameObject:
   - component: {fileID: 183051787}
   - component: {fileID: 183051788}
   - component: {fileID: 183051789}
+  - component: {fileID: 183051790}
   m_Layer: 0
   m_Name: sprite
   m_TagString: Untagged
@@ -231,7 +232,7 @@ SpriteRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 9dfc825aed78fcd4ba02077103263b40, type: 2}
+  - {fileID: 10754, guid: 0000000000000000f000000000000000, type: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -254,7 +255,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 31d8dc4b7280b984f944f9cbe3e31b51, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 2afe5bd7f70f5a44da5f5d327cba3184, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
@@ -276,6 +277,19 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 267ce4124b843574d93fd07f40fd2576, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Billboard
+--- !u!114 &183051790
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 183051786}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d104675fb94eb83478e3d16af591d348, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::Outline
+  colorBlockShader: {fileID: 2100000, guid: 7eb5d35a002801745892fe6e5bffd7f0, type: 2}
 --- !u!1 &280874729
 GameObject:
   m_ObjectHideFlags: 0
@@ -534,6 +548,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1159235713}
+  - component: {fileID: 1159235714}
   m_Layer: 0
   m_Name: player
   m_TagString: Untagged
@@ -558,6 +573,18 @@ Transform:
   - {fileID: 183051787}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1159235714
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1159235712}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7f43b6ac75537486f8f136f9d2310f09, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::PlayerMovement
 --- !u!1 &2042488126
 GameObject:
   m_ObjectHideFlags: 0

@@ -18,7 +18,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]public bool isCrafting;
     [HideInInspector]public bool hasTalisman;
     [HideInInspector]public float talismanCraftingTimer;
-    [HideInInspector]public float talismanPlacementTimer = 1;
+    [HideInInspector]public float talismanPlacementTimers;
 
     PlayerInput playerInput;
 
@@ -69,8 +69,8 @@ public class PlayerController : MonoBehaviour
     }
     private void InteractStarted(InputAction.CallbackContext ctx)
     {
-        bool interact = ctx.ReadValue<bool>();
-        if (!interact) return;
+        float interact = ctx.ReadValue<float>();
+        if (interact < 0) return;
 
         foreach(IInteractable interactable in interactables)
         {
@@ -84,10 +84,9 @@ public class PlayerController : MonoBehaviour
     }
     private void InteractCanceled(InputAction.CallbackContext ctx)
     {
-        bool interact = ctx.ReadValue<bool>();
-        if (interact) return;
-
-        currentInteractable.CancelInteract();
+        float interact = ctx.ReadValue<float>();
+        if (interact > 0) return;
+        currentInteractable?.CancelInteract();
         currentInteractable = null;
     }
     private void CraftStarted(InputAction.CallbackContext ctx)
