@@ -4,6 +4,7 @@ using UnityEngine;
 public class Outline : MonoBehaviour
 {
     [SerializeField] Material colorBlockShader;
+    public Color defaultHighlightColor;
     SpriteRenderer spriteRenderer;
     GameObject outline;
     SpriteRenderer outlineRenderer;
@@ -13,6 +14,7 @@ public class Outline : MonoBehaviour
         spriteRenderer = GetComponent<SpriteRenderer>();
         outline = new GameObject("spriteOutline");
         outlineRenderer = outline.AddComponent<SpriteRenderer>();
+        outline.AddComponent<Billboard>();
         outline.transform.position = transform.position;
         outline.transform.parent = transform;
         outlineRenderer.sortingOrder = spriteRenderer.sortingOrder - 1;
@@ -21,6 +23,10 @@ public class Outline : MonoBehaviour
         outlineRenderer.enabled = false;
     }
 
+    public void Activate()
+    {
+        Activate(defaultHighlightColor);
+    }
     public void Activate(Color color, float scale = 1.2f)
     {
         outlineRenderer.transform.localScale = transform.localScale * scale;
