@@ -4,13 +4,13 @@ public class EnemyVision : MonoBehaviour
 {
     float angle = 45.0f;
     float range = 2.0f;
-    GameObject player;
+    PlayerController player;
 
     public bool playerInVision = false;
 
     void Start()
     {
-        
+        player = PlayerController.instance;
     }
 
 

@@ -21,10 +21,10 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]public float talismanPlacementTimer = 1;
 
     PlayerInput playerInput;
-    // Start is called once before the first execution of Update after the MonoBehaviour is created
-    void Start()
+
+    void Awake()
     {
-        if(instance != null) return;
+        if(instance != null) Destroy(this);
         instance = this;
 
         if(PlayerRoot == null)
