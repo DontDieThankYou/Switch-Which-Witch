@@ -184,6 +184,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyActions
   navMeshAgent: {fileID: 7990442574180985496}
+  waitingTimer: 0
 --- !u!1 &8295112259189781188
 GameObject:
   m_ObjectHideFlags: 0
@@ -319,4 +320,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2801a2663042a4355a738d0b04a6df60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::EnemyVision
+  angle: 80
+  range: 5
   playerInVision: 0

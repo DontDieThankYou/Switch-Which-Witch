@@ -2,8 +2,8 @@ using UnityEngine;
 
 public class EnemyVision : MonoBehaviour
 {
-    float angle = 45.0f;
-    float range = 2.0f;
+    [SerializeField] float angle;
+    [SerializeField] float range;
     PlayerController player;
 
     public bool playerInVision = false;
@@ -16,22 +16,25 @@ public class EnemyVision : MonoBehaviour
 
     void Update()
     {
-        bool withinDistance = Vector2.Distance(DimensionConverter.XYZtoXZ(player.transform.position),
-                                               DimensionConverter.XYZtoXZ(this.transform.position)) < range;
-
-        bool withinCone = Vector2.Dot(DimensionConverter.XYZtoXZ(this.transform.forward.normalized),
-                                      DimensionConverter.XYZtoXZ(player.transform.forward.normalized)) < Mathf.Cos(angle/2);
-
-        playerInVision = false;
-        // vision detection
-        if (withinDistance && withinCone)
-        {
-            playerInVision = true;
-        }
     }
 
     void FixedUpdate()
     {
+
+        bool withinDistance = Vector2.Distance(DimensionConverter.XYZtoXZ(player.transform.position),
+                                               DimensionConverter.XYZtoXZ(this.transform.position)) < range;
+
+        bool withinCone = Vector2.Dot(DimensionConverter.XYZtoXZ(this.transform.forward.normalized),
+                                      DimensionConverter.XYZtoXZ(player.transform.position - this.transform.position)) > Mathf.Cos(Mathf.Deg2Rad * angle/2);
+
+        playerInVision = false;
+        // vision detection
+        Debug.Log(string.Format("within distance {0}, within cone {1}", withinDistance, withinCone));
+        if (withinDistance && withinCone)
+        {
+            playerInVision = true;
+        }
+
         if (playerInVision)
         {
             // TODO: todo.
@@ -39,14 +42,4 @@ public class EnemyVision : MonoBehaviour
             Debug.LogWarning("player suspicion increase to implement");
         }
     }
-
-    // void OnDrawGizmos()
-    // {
-    //     Gizmos.color = Color.deepPink;
-
-    //     UnityEditor.Handles.DrawWireDisc(this.transform.position, Vector3.back, range);
-
-    //     Gizmos.color = Color.cyan;
-        
-    // }
 }
