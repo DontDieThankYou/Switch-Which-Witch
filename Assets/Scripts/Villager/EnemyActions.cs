@@ -8,8 +8,10 @@ public class EnemyActions : MonoBehaviour
 
     [SerializeField] NavMeshAgent navMeshAgent;
     VillageNavigation villageNavigation;
+    [SerializeField] GameObject house;
 
     bool normalPathfinding = true;
+    bool isHexed = false;
     [SerializeField] float waitingTimer = 0.0f;
     NavArea currentNavArea = null;
 
@@ -48,6 +50,17 @@ public class EnemyActions : MonoBehaviour
         } else
         {
             // abnormal pathfinding (usually overrides)
+            if (isHexed)
+            {
+                // go to a house and die
+                Destroy(this.gameObject);
+            }
         }
+    }
+
+    public void Hex()
+    {
+        // villager is hexed and will now kill themselves.
+        isHexed = true;
     }
 }
