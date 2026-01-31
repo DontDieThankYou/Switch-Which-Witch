@@ -36,6 +36,7 @@ public class EnemyVision : MonoBehaviour
         {
             // TODO: todo.
             // player.suspicion += 1;
+            Debug.LogWarning("player suspicion increase to implement");
         }
     }
 

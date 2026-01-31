@@ -16,8 +16,11 @@ public class VillageParanoia : MonoBehaviour
 
     public bool AttemptAccuse()
     {
+        // TODO: handle failed accusation
+        // losing should be handled on player.
         if (paranoia > accusationThreshold)
         {
+            // TODO: 
             Accuse();
             return true;
         }
