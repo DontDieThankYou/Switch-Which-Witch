@@ -1,5 +1,3 @@
-using System.Collections.Generic;
-using NUnit.Framework.Constraints;
 using UnityEngine;
 using UnityEngine.AI;
 
@@ -12,7 +10,8 @@ public class EnemyActions : MonoBehaviour
     VillageNavigation villageNavigation;
 
     bool normalPathfinding = true;
-    float waitingTimer = 0.0f;
+    [SerializeField] float waitingTimer = 0.0f;
+    NavArea currentNavArea = null;
 
     void Start()
     {
@@ -23,20 +22,32 @@ public class EnemyActions : MonoBehaviour
     {
         if (normalPathfinding)
         {
-            Debug.Log("tick");
+            // Debug.Log(navMeshAgent.hasPath);
             // during normal pathfinding
             if (navMeshAgent.hasPath && navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
             {
                 // assumes path endpoint is reachable
                 // nothing i guess
-            } else if (waitingTimer > 0)
-            {
-                waitingTimer -= Time.fixedDeltaTime;
+                Debug.Log("pathing");
             } else
             {
-                // create new path
-                navMeshAgent.destination = villageNavigation.PickRandomWeightedLocation();
+                waitingTimer -= Time.fixedDeltaTime;
+                if (waitingTimer < 0)
+                {
+                    if (currentNavArea == null || Random.Range(0.0f, 1.0f) < 0.2)
+                    {
+                        // 20% chance to move to another area
+                        currentNavArea = villageNavigation.PickWeightedNavArea();
+                    }
+
+                    // create new path
+                    navMeshAgent.destination = villageNavigation.PickLocationFromNavArea(currentNavArea);
+                    waitingTimer = Random.Range(3.0f, 5.0f);
+                }
             }
+        } else
+        {
+            // abnormal pathfinding (usually overrides)
         }
     }
 }
