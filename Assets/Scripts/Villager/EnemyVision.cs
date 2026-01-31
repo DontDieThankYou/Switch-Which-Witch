@@ -5,6 +5,9 @@ public class EnemyVision : MonoBehaviour
     float angle = 45.0f;
     float range = 2.0f;
     GameObject player;
+
+    public bool playerInVision = false;
+
     void Start()
     {
         
@@ -19,16 +22,21 @@ public class EnemyVision : MonoBehaviour
         bool withinCone = Vector2.Dot(DimensionConverter.XYZtoXZ(this.transform.forward.normalized),
                                       DimensionConverter.XYZtoXZ(player.transform.forward.normalized)) < Mathf.Cos(angle/2);
 
+        playerInVision = false;
         // vision detection
         if (withinDistance && withinCone)
         {
-            Debug.Log("detected");
+            playerInVision = true;
         }
     }
 
     void FixedUpdate()
     {
-        
+        if (playerInVision)
+        {
+            // TODO: todo.
+            // player.suspicion += 1;
+        }
     }
 
     // void OnDrawGizmos()
