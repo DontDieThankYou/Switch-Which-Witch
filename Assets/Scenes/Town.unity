@@ -9171,6 +9171,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2279970675925678892, guid: a4c5d574a324cc840930d8c783b986a3, type: 3}
+      propertyPath: playOnAwake
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3605950991939155120, guid: a4c5d574a324cc840930d8c783b986a3, type: 3}
       propertyPath: m_Name
       value: Pyre
@@ -9178,6 +9182,10 @@ PrefabInstance:
     - target: {fileID: 3605950991939155120, guid: a4c5d574a324cc840930d8c783b986a3, type: 3}
       propertyPath: m_IsActive
       value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4808455980350440833, guid: a4c5d574a324cc840930d8c783b986a3, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7108031415876068810, guid: a4c5d574a324cc840930d8c783b986a3, type: 3}
       propertyPath: m_LocalPosition.y
@@ -9202,6 +9210,10 @@ PrefabInstance:
     - target: {fileID: 7108031415876068810, guid: a4c5d574a324cc840930d8c783b986a3, type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8715140407549247087, guid: a4c5d574a324cc840930d8c783b986a3, type: 3}
+      propertyPath: playOnAwake
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
