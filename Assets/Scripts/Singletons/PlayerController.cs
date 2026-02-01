@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]public bool isPlacingTalisman;
     [HideInInspector] public bool hasTalisman = true;
     [HideInInspector] public float talismanCraftingTimer;
+    [HideInInspector]public bool isAccusing;
     [HideInInspector]public float talismanPlacementTimer;
     [SerializeField]private Animator animController;
 
