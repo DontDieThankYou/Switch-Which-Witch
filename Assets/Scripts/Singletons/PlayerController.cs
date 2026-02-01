@@ -86,7 +86,7 @@ public class PlayerController : MonoBehaviour
                     h.PlaceTalisman();
                     // add points for talisman
                     suspicion += talismanPoints.suspicion;
-                    villageParanoia.paranoia += talismanPoints.paranoia;
+                    villageParanoia.Paranoia += talismanPoints.paranoia;
                 }
             }
             else if(isCrafting && !hasTalisman)
