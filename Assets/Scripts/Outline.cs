@@ -23,6 +23,14 @@ public class Outline : MonoBehaviour
         outlineRenderer.enabled = false;
     }
 
+    void Update()
+    {
+        if (outlineRenderer.sprite == null)
+        {
+            outlineRenderer.sprite = spriteRenderer.sprite;
+        }
+    }
+
     public void Activate()
     {
         Activate(defaultHighlightColor);
