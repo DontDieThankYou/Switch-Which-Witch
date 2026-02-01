@@ -10,7 +10,7 @@ public class VillageParanoia : MonoBehaviour
     public static List<GameObject> villagers = new();
 
     public float paranoia = 0;
-    public readonly float accusationThreshold = 10;
+    public readonly float accusationThreshold = 80;
     public float resetTime = 5;
     public float resetTimer = 0;
 
@@ -30,6 +30,9 @@ public class VillageParanoia : MonoBehaviour
                 Reset();
             }
         }
+
+        
+        paranoia = Mathf.Clamp(paranoia - (1 * Time.fixedDeltaTime), 0f, 100f);
     }
     public void resetTimerTime()
     {

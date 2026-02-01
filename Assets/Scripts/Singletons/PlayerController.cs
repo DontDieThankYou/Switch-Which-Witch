@@ -54,10 +54,6 @@ public class PlayerController : MonoBehaviour
     public PlayerInput playerInput;
     public AudioSource talismanRustle;
     public AudioSource talismanPlace;
-    public float nightmareTimer;
-    public float nightmareTime;
-    public AudioSource nightMareSource;
-
     public ParticleSystem ps;
     [SerializeField] private AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
@@ -100,6 +96,9 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if(PlayerRoot == null) return;
+        
+        suspicion = Mathf.Clamp(suspicion - (3 * Time.fixedDeltaTime), 0f, 100f);
+         
 
         PlayerRoot.linearVelocity = Vector3.zero;
         // moving
@@ -149,16 +148,6 @@ public class PlayerController : MonoBehaviour
                     hasTalisman = true;
                     isCrafting = false;
                 }
-            }
-        }
-        if(nightmareTimer > 0)
-        {
-            nightmareTimer -= Time.fixedDeltaTime;
-            if(nightmareTimer < 0)
-            {
-                AudioManager.instance.PlayAudioSource(true, talismanPlace);
-                isPlacingTalisman = true;
-                talismanPlacementTimer = talismanPlacementTime;
             }
         }
     }
@@ -246,7 +235,10 @@ public class PlayerController : MonoBehaviour
                 switch (t)
                 {
                     case InteractableType.House:
-                        nightmareTimer = nightmareTime;
+                    
+                        AudioManager.instance.PlayAudioSource(true, talismanPlace);
+                        isPlacingTalisman = true;
+                        talismanPlacementTimer = talismanPlacementTime;
                         break;
                 }
                 break;
@@ -268,12 +260,6 @@ public class PlayerController : MonoBehaviour
 
     public void InteractCanceled()
     {
-        if(nightmareTimer > 0)
-        {
-            nightmareTimer = -1;
-            AudioManager.instance.PlayAudioSource(true, nightMareSource);
-
-        }
         if(isPlacingTalisman)
         {
             isPlacingTalisman = false;
