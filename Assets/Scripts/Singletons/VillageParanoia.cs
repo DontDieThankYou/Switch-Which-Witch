@@ -1,8 +1,10 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class VillageParanoia : MonoBehaviour
 {
     public static VillageParanoia instance;
+    public static List<GameObject> villagers = new();
 
     public float paranoia = 0;
     public readonly float accusationThreshold = 10;
@@ -14,21 +16,28 @@ public class VillageParanoia : MonoBehaviour
         instance = this;
     }
 
-    public bool AttemptAccuse()
+    public void AttemptAccuse()
     {
-        // TODO: handle failed accusation
-        // losing should be handled on player.
+        VillagePyreDestination.Reset();
         if (paranoia > accusationThreshold)
         {
-            // TODO: 
             Accuse();
-            return true;
         }
-        return false;
+        AccusePlayer();
     }
 
     public void Accuse()
     {
         Debug.LogError("not finished lol");
+    }
+
+    public void AccusePlayer()
+    {
+        
+    }
+
+    public void WalkToStake()
+    {
+        
     }
 }
