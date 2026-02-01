@@ -94,6 +94,9 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if(PlayerRoot == null) return;
+        
+        suspicion = Mathf.Clamp(suspicion - (3 * Time.fixedDeltaTime), 0f, 100f);
+         
 
         PlayerRoot.linearVelocity = Vector3.zero;
         // moving
