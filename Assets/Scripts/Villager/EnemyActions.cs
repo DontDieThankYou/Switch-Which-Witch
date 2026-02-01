@@ -43,7 +43,6 @@ public class EnemyActions : MonoBehaviour
     {
         villageNavigation = VillageNavigation.instance;
         villageParanoia = VillageParanoia.instance;
-        PickNewLocation();
     }
 
     void Update()
@@ -174,7 +173,6 @@ public class EnemyActions : MonoBehaviour
         normalPathfinding = true;
         navMeshAgent.isStopped = false;
         AudioManager.instance.crowdingSource.Stop();
-        PickNewLocation();
     }
     IEnumerator Lynch(Vector3 position)
     {

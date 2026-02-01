@@ -648,10 +648,7 @@ PrefabInstance:
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects: []
-    m_AddedComponents:
-    - targetCorrespondingSourceObject: {fileID: 4952686190921390753, guid: a15859bedc846a74d8845d71fff98ae7, type: 3}
-      insertIndex: -1
-      addedObject: {fileID: 485342093}
+    m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a15859bedc846a74d8845d71fff98ae7, type: 3}
 --- !u!1001 &46629945
 PrefabInstance:
@@ -5986,33 +5983,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 1154628723275617240, guid: 8272d493aaf994b1687972478e3b9f26, type: 3}
   m_PrefabInstance: {fileID: 1671359666}
   m_PrefabAsset: {fileID: 0}
---- !u!1 &485342090 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4952686190921390753, guid: a15859bedc846a74d8845d71fff98ae7, type: 3}
-  m_PrefabInstance: {fileID: 42776264}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &485342093
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 485342090}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 564b8b4e2f7974cee80d851bdd040be5, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: Assembly-CSharp::VillagerSpawner
-  maxVillagers: 20
-  villtypes:
-  - {fileID: 9100000, guid: bf6f3ce6971ef8d4d9a7e240e4177df6, type: 2}
-  - {fileID: 9100000, guid: 9557e6966c4a3e34f844720ed56d628c, type: 2}
-  - {fileID: 9100000, guid: f34a5dbefb8daac42832b1f8a8c6ff87, type: 2}
-  villsprites:
-  - {fileID: 21300000, guid: 9b3a0ff511217994d9f68a0c916fc256, type: 3}
-  - {fileID: 21300000, guid: 5a382e63fb44e3348ba8ddec1288faab, type: 3}
-  - {fileID: 21300000, guid: f95a52a19d98fb74ca85ef1380844d94, type: 3}
-  villPrefab: {fileID: 6648904564105515940, guid: e63a9d841053e4bcea3f220cbc0c8d06, type: 3}
 --- !u!1001 &487714578
 PrefabInstance:
   m_ObjectHideFlags: 0
