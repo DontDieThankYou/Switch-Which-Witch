@@ -1,4 +1,5 @@
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -58,6 +59,7 @@ public class PlayerController : MonoBehaviour
     public AudioSource nightMareSource;
 
     public ParticleSystem ps;
+    [SerializeField] private AnimationCurve scaleCurve = AnimationCurve.EaseInOut(0f, 0f, 1f, 1f);
 
     void Awake()
     {
@@ -325,8 +327,7 @@ public class PlayerController : MonoBehaviour
         suspicion += newSus;
         float scaling = 1 + newSus/100;
 
-        Vector3 curr = ps.transform.localScale;
-        ps.transform.localScale = new Vector3 (scaling*curr.x, scaling*curr.y, scaling*curr.z);
+        StartCoroutine(ScalePS(scaling));
 
         if(suspicion >= suspicionThreshold)
         {
@@ -339,5 +340,33 @@ public class PlayerController : MonoBehaviour
             VillageParanoia.instance.LynchPlayer();
             ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
+    }
+
+    private IEnumerator ScalePS(float scale)
+    {
+        Vector3 startScale = ps.transform.localScale;
+        Vector3 endScale = startScale*scale; // Uniform scaling
+        float duration = 5;
+        float elapsed = 0f;
+
+        while (elapsed < duration)
+        {
+            // Calculate the interpolation factor, potentially using a curve
+            float t = elapsed / duration;
+            // The AnimationCurve can be evaluated to control the speed over time
+            float curvedT = scaleCurve.Evaluate(t);
+
+            // Interpolate the local scale
+            ps.transform.localScale = Vector3.Lerp(startScale, endScale, curvedT);
+
+            // Increment elapsed time
+            elapsed += Time.deltaTime;
+
+            // Wait until the next frame
+            yield return null;
+        }
+
+        // Ensure the final scale is exact
+        ps.transform.localScale = endScale;
     }
 }
