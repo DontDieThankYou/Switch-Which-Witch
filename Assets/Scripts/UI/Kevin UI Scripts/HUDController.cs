@@ -85,6 +85,8 @@ public class HUDController : MonoBehaviour
         {
             canClick = true; 
         });
+
+        playerController.isAccusing = false;
     }
 
     

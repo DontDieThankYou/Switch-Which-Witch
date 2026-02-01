@@ -109,8 +109,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::PlayerController
   moveSpeed: 5
-  talismanCraftingTime: 1
-  talismanPlacementTime: 1
+  talismanCraftingTime: 2
+  talismanPlacementTime: 0.1
   PlayerRoot: {fileID: 3781625411396495538}
   villagers: []
   isShadowed: 0
