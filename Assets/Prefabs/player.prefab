@@ -13,6 +13,8 @@ GameObject:
   - component: {fileID: 5985239972176592810}
   - component: {fileID: 5321278341665078916}
   - component: {fileID: 2597205921823372867}
+  - component: {fileID: 7433538801926361434}
+  - component: {fileID: 4034953199166222042}
   m_Layer: 0
   m_Name: player
   m_TagString: Player
@@ -110,6 +112,7 @@ MonoBehaviour:
   talismanCraftingTime: 1
   talismanPlacementTime: 1
   PlayerRoot: {fileID: 3781625411396495538}
+  villagers: []
   isShadowed: 0
   isCrafting: 0
   isPlacingTalisman: 0
@@ -119,6 +122,7 @@ MonoBehaviour:
   talismanPlacementTimer: 0
   animController: {fileID: 5776538194101175549}
   suspicion: 0
+  suspicionThreshold: 100
   nightmarePoints:
     paranoia: 0
     suspicion: 0
@@ -128,6 +132,9 @@ MonoBehaviour:
   hexPoints:
     paranoia: 0
     suspicion: 0
+  IsBeingLynched: 0
+  sp: {fileID: 6061806724640452550}
+  hasLyncher: 0
 --- !u!136 &2597205921823372867
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -151,6 +158,44 @@ CapsuleCollider:
   m_Height: 3
   m_Direction: 1
   m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!136 &7433538801926361434
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2409700931090118309}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 0.5
+  m_Height: 3
+  m_Direction: 1
+  m_Center: {x: 0, y: 1.5, z: 0}
+--- !u!114 &4034953199166222042
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2409700931090118309}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fe554f97c9bf2044d810795b1c4dcc8a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::MouseHover
+  villagerLayer:
+    serializedVersion: 2
+    m_Bits: 0
 --- !u!1 &3143220449394716748
 GameObject:
   m_ObjectHideFlags: 0

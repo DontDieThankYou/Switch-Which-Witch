@@ -21,6 +21,7 @@ public class PlayerController : MonoBehaviour
     Vector2 moveDir = Vector2.zero;
     [SerializeField] Rigidbody PlayerRoot;
     public List<IInteractable> interactables;
+    public List<EnemyActions> villagers;
     IInteractable currentInteractable;
     [HideInInspector]public bool isShadowed;
     [HideInInspector]public bool isCrafting;
@@ -31,6 +32,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]public float talismanPlacementTimer;
     [SerializeField]private Animator animController;
     [HideInInspector] public float suspicion = 0.0f;
+    [SerializeField] public float suspicionThreshold = 100f;
 
     [Header("Points")]
     [SerializeField] public ActionPoints nightmarePoints;
@@ -41,7 +43,9 @@ public class PlayerController : MonoBehaviour
     [Header("Kevin")]
     public Action<IInteractable> enterInteractable;
     public Action<IInteractable> exitInteractable;
-
+    public bool IsBeingLynched;
+    public SpriteRenderer sp;
+    public bool hasLyncher;
 
     PlayerInput playerInput;
 
@@ -55,16 +59,32 @@ public class PlayerController : MonoBehaviour
             Debug.LogError("No Player to Control!");
         }
         playerInput = GetComponent<PlayerInput>();
+        interactables = new();
+        Setup();
+        villageParanoia = VillageParanoia.instance;
+    }
+    void Setup()
+    {
         playerInput.actions["Move"].performed += MovePerformed;
         playerInput.actions["Move"].canceled += MoveCanceled;
         playerInput.actions["Interact"].started += InteractStarted;
         playerInput.actions["Interact"].canceled += InputInteractCanceled;
         playerInput.actions["Craft"].started += CraftStarted;
         playerInput.actions["Craft"].canceled += InputCraftCanceled;
-        interactables = new();
-        villageParanoia = VillageParanoia.instance;
+        interactables.Clear();
+        IsBeingLynched = false;
+        hasLyncher = false;
+        sp.enabled = true;
     }
-
+    void Cleanup()
+    {
+        playerInput.actions["Move"].performed -= MovePerformed;
+        playerInput.actions["Move"].canceled -= MoveCanceled;
+        playerInput.actions["Interact"].started -= InteractStarted;
+        playerInput.actions["Interact"].canceled -= InputInteractCanceled;
+        playerInput.actions["Craft"].started -= CraftStarted;
+        playerInput.actions["Craft"].canceled -= InputCraftCanceled;
+    }
     void FixedUpdate()
     {
         if(PlayerRoot == null) return;
@@ -86,7 +106,7 @@ public class PlayerController : MonoBehaviour
                     h.PlaceTalisman();
                     // add points for talisman
                     suspicion += talismanPoints.suspicion;
-                    villageParanoia.Paranoia += talismanPoints.paranoia;
+                    villageParanoia.paranoia += talismanPoints.paranoia;
                 }
             }
             else if(isCrafting && !hasTalisman)
@@ -107,6 +127,28 @@ public class PlayerController : MonoBehaviour
             interactables.Add(interactable);
             enterInteractable?.Invoke(interactable);  
         } 
+        if(other.transform.parent != null
+            && other.transform.parent.TryGetComponent<EnemyActions>(out EnemyActions o))
+        {
+            if(IsBeingLynched && !hasLyncher)
+            {
+                GotLynched(o);
+            }
+            else villagers.Add(other.transform.parent.GetComponent<EnemyActions>());
+        } 
+        if (other.CompareTag("Pyre"))
+        {
+            //Do VFX
+
+            Pyre.instance.TiePyre(0);
+        }
+    }
+    private void GotLynched(EnemyActions v)
+    {
+        v.MakeLyncher(0);
+        hasLyncher = true;
+        VillageParanoia.susCaught = true;
+        sp.enabled = false;
     }
     void OnTriggerExit(Collider other)
     {
@@ -114,6 +156,10 @@ public class PlayerController : MonoBehaviour
         {
             interactables.Remove(interactable);
             exitInteractable?.Invoke(interactable);  
+        } 
+        if(other.CompareTag("Villager"))
+        {
+            villagers.Remove(other.transform.parent.GetComponent<EnemyActions>());
         } 
     }
     private void MovePerformed(InputAction.CallbackContext ctx)
@@ -223,13 +269,22 @@ public class PlayerController : MonoBehaviour
     }
     private void OnDestroy()
     {
-        playerInput.actions["Move"].performed -= MovePerformed;
-        playerInput.actions["Move"].canceled -= MoveCanceled;
-        playerInput.actions["Interact"].started -= InteractStarted;
-        playerInput.actions["Interact"].canceled -= InputInteractCanceled;
-        playerInput.actions["Craft"].started -= CraftStarted;
-        playerInput.actions["Craft"].canceled -= InputCraftCanceled;
+        Cleanup();
     }
 
     public float TalismanPlacementTime => talismanCraftingTime;
+    public void IncrementSus(float newSus)
+    {
+        suspicion += newSus;
+        if(newSus >= suspicionThreshold)
+        {
+            Cleanup();
+            moveDir = Vector2.zero;
+            PlayerRoot.linearVelocity = Vector2.zero;
+            isPlacingTalisman = false;
+            isCrafting = false;
+            IsBeingLynched = true;
+            VillageParanoia.instance.LynchPlayer();
+        }
+    }
 }

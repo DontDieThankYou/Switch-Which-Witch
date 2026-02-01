@@ -37,7 +37,7 @@ public class MouseHover : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
         else if(objectHighlighted != null)
         {
-            if(!highlightedVillager.isHexed) objectHighlighted.Deactivate();
+            if(highlightedVillager != null && !highlightedVillager.isHexed) objectHighlighted.Deactivate();
             objectHighlighted = null;
         }
     }
@@ -53,7 +53,16 @@ public class MouseHover : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         {
             if(outline == onDownObject && actions == onDownVillager)
             {
-                objectHighlighted.Activate(Color.rebeccaPurple);
+                if(PlayerController.instance.isAccusing)
+                {
+                    objectHighlighted.Activate(Color.red);
+                    VillageParanoia.instance.AttemptAccuse(actions);
+                }
+                else
+                {
+                    objectHighlighted.Activate(Color.rebeccaPurple);
+                    onDownVillager.Hex();
+                }
             }
         }
     }
