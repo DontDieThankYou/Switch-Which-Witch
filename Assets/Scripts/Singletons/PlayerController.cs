@@ -19,6 +19,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]public bool hasTalisman;
     [HideInInspector]public float talismanCraftingTimer;
     [HideInInspector]public float talismanPlacementTimers;
+    [SerializeField]private Animator animController;
 
     PlayerInput playerInput;
 
@@ -62,10 +63,30 @@ public class PlayerController : MonoBehaviour
     private void MovePerformed(InputAction.CallbackContext ctx)
     {
         moveDir = ctx.ReadValue<Vector2>().normalized;
+        if (!(moveDir.y != 0 && moveDir.x != 0)) animController.SetBool("isMoving", true); 
+        
+        if (moveDir.x < 0) // Left
+        {
+            animController.SetInteger("direction", 3);
+        }
+        else if (moveDir.x > 0) // Right
+        {
+            animController.SetInteger("direction", 4);
+        }
+        else if (moveDir.y < 0) // Down
+        {
+            animController.SetInteger("direction", 1);
+        }
+        else if (moveDir.y > 0) // Up
+        {
+            animController.SetInteger("direction", 2);
+        }
     }
     private void MoveCanceled(InputAction.CallbackContext ctx)
     {
         moveDir = Vector2.zero;
+        animController.SetBool("isMoving", false);
+        animController.SetInteger("direction", 0);
     }
     private void InteractStarted(InputAction.CallbackContext ctx)
     {
