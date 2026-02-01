@@ -14662,6 +14662,22 @@ PrefabInstance:
       propertyPath: m_LocalPosition.y
       value: 0.5
       objectReference: {fileID: 0}
+    - target: {fileID: 5321278341665078916, guid: 45ab1a14fc0c68148bcd05231b8fe918, type: 3}
+      propertyPath: hexPoints.paranoia
+      value: 15
+      objectReference: {fileID: 0}
+    - target: {fileID: 5321278341665078916, guid: 45ab1a14fc0c68148bcd05231b8fe918, type: 3}
+      propertyPath: hexPoints.suspicion
+      value: 10
+      objectReference: {fileID: 0}
+    - target: {fileID: 5321278341665078916, guid: 45ab1a14fc0c68148bcd05231b8fe918, type: 3}
+      propertyPath: talismanPoints.paranoia
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5321278341665078916, guid: 45ab1a14fc0c68148bcd05231b8fe918, type: 3}
+      propertyPath: talismanPoints.suspicion
+      value: 15
+      objectReference: {fileID: 0}
     - target: {fileID: 7774877394426167561, guid: 45ab1a14fc0c68148bcd05231b8fe918, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
