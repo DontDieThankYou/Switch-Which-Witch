@@ -1,3 +1,4 @@
+using System.Collections;
 using DG.Tweening;
 using UnityEngine;
 
@@ -11,6 +12,10 @@ public class HUDController : MonoBehaviour
     private PlayerController playerController;
 
     private bool accused = false;
+    public AudioSource audioSource;
+    public AudioSource loopSource;
+    public AudioClip AccuseOff;
+    public AudioClip AccuseOn;
 
     [Header("Accuse Shit")]
     private bool canClick = true;
@@ -41,6 +46,14 @@ public class HUDController : MonoBehaviour
 
         if (!accused)
         {
+            audioSource.clip = AccuseOn;
+            AudioManager.instance.PlayAudioSource(true, audioSource);
+            
+            if(!loopSource.isPlaying)
+            {
+                AudioManager.instance.PlayAudioSource(false, loopSource);
+            }
+
             // turn on accuse
             // call accuse manager or some shit to turn on the global volume or whatever
             colouredAccuse.DOFade(1f, 1f).OnComplete(() =>
@@ -60,6 +73,13 @@ public class HUDController : MonoBehaviour
 
         } else
         {
+            audioSource.clip = AccuseOff;
+            AudioManager.instance.PlayAudioSource(true, audioSource);
+            muffleAmbience();
+            if(!loopSource.isPlaying)
+            {
+                loopSource.Stop();
+            }
             // turn off accuse 
             // do some bullshit with accuse manager again
 
@@ -88,6 +108,11 @@ public class HUDController : MonoBehaviour
 
         playerController.isAccusing = false;
     }
-
+    IEnumerator muffleAmbience()
+    {
+        AudioManager.instance.ambienceSource.volume *= 0.8f;
+        yield return new WaitForSeconds(1);
+        AudioManager.instance.ambienceSource.volume /= 0.8f;
+    }
     
 }

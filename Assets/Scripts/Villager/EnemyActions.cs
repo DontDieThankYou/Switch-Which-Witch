@@ -18,7 +18,7 @@ public class EnemyActions : MonoBehaviour
     [SerializeField] float waitingTimer = 0.0f;
     NavArea currentNavArea = null;
     bool isMoving = true;
-    bool isAccused = false;
+    public bool isAccused = false;
     bool susCaught = false;
     public float pyreDetectDist = 10f;
     List<EnemyActions> villagers;
@@ -26,6 +26,7 @@ public class EnemyActions : MonoBehaviour
     public int lynchedType = 0;
     public int villType = 0;
     bool isTouchingPyre;
+    public static bool isCrowding;
 
     void Awake()
     {
@@ -134,7 +135,7 @@ public class EnemyActions : MonoBehaviour
         {
             yield return null;
         }
-
+        AudioManager.instance.PlayAudioSource(true, AudioManager.instance.crowdingSource);
         // then walk towards offset position in town center
         navMeshAgent.destination = pyreLocation;
         while(!VillageParanoia.susTied)
@@ -158,7 +159,14 @@ public class EnemyActions : MonoBehaviour
         // light pyre here
 
         // burn
-        yield return new WaitForSeconds(5.0f); // BURNNNNNNNNNNNNNNNNNN
+        float timer = 0;
+        float initVolume = AudioManager.instance.crowdingSource.volume;
+        while(timer < 5f)
+        {
+            timer += Time.deltaTime;
+            yield return null;
+            AudioManager.instance.crowdingSource.volume = Mathf.Lerp(initVolume, 0, timer/5f);
+        }// BURNNNNNNNNNNNNNNNNNN
 
         Pyre.instance.DismissPyre();
         normalPathfinding = true;
@@ -166,6 +174,7 @@ public class EnemyActions : MonoBehaviour
         navMeshAgent.speed = 10.0f;
         normalPathfinding = true;
         navMeshAgent.isStopped = false;
+        AudioManager.instance.crowdingSource.Stop();
     }
     public void BeAccused()
     {
