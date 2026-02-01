@@ -21,10 +21,10 @@ MonoBehaviour:
     m_Value: {x: 0.5, y: 0.5}
   intensity:
     m_OverrideState: 1
-    m_Value: 0.41
+    m_Value: 0.243
   smoothness:
     m_OverrideState: 1
-    m_Value: 0.195
+    m_Value: 0.604
   rounded:
     m_OverrideState: 1
     m_Value: 1
@@ -43,13 +43,13 @@ MonoBehaviour:
   active: 1
   shadows:
     m_OverrideState: 1
-    m_Value: {x: 0.6284112, y: 0.7416275, z: 1, w: 0.019342441}
+    m_Value: {x: 0.8479985, y: 0.6627933, z: 1, w: 0.019342441}
   midtones:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.95100635, z: 0.9249043, w: 0.2011607}
+    m_Value: {x: 1, y: 0.41922712, z: 0.4944474, w: 0.2011607}
   highlights:
     m_OverrideState: 1
-    m_Value: {x: 0.969447, y: 1, z: 0.84149027, w: 0.10831672}
+    m_Value: {x: 1, y: 0.820237, z: 0.8735014, w: 0.10831672}
   shadowsStart:
     m_OverrideState: 0
     m_Value: 0
@@ -77,10 +77,10 @@ MonoBehaviour:
   active: 1
   lift:
     m_OverrideState: 1
-    m_Value: {x: 0.8887166, y: 0.90976334, z: 1, w: 0}
+    m_Value: {x: 1, y: 0.75702345, z: 0.82784265, w: 0}
   gamma:
     m_OverrideState: 1
-    m_Value: {x: 1, y: 0.96102977, z: 0.98114073, w: -0.31334627}
+    m_Value: {x: 1, y: 0.9675259, z: 0.96656823, w: -0.31334627}
   gain:
     m_OverrideState: 1
     m_Value: {x: 0.98830414, y: 0.97660846, z: 1, w: 0}
@@ -94,7 +94,7 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: d7fd9488000d3734a9e00ee676215985, type: 3}
-  m_Name: Global Volume Profile
+  m_Name: Accuse Volume
   m_EditorClassIdentifier: Unity.RenderPipelines.Core.Runtime::UnityEngine.Rendering.VolumeProfile
   components:
   - {fileID: -6940848694625516499}
@@ -127,7 +127,7 @@ MonoBehaviour:
     m_Value: 3.85
   scatter:
     m_OverrideState: 1
-    m_Value: 0.7
+    m_Value: 0.839
   clamp:
     m_OverrideState: 1
     m_Value: 65472
@@ -193,4 +193,4 @@ MonoBehaviour:
   active: 1
   intensity:
     m_OverrideState: 1
-    m_Value: 0.45
+    m_Value: 0.641

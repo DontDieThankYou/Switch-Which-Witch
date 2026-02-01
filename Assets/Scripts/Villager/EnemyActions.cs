@@ -8,9 +8,10 @@ public class EnemyActions : MonoBehaviour
 
     [SerializeField] NavMeshAgent navMeshAgent;
     VillageNavigation villageNavigation;
-    [SerializeField] GameObject house;
+    [SerializeField] GameObject door;
 
     bool normalPathfinding = true;
+    bool pathing = false;
     bool isHexed = false;
     [SerializeField] float waitingTimer = 0.0f;
     NavArea currentNavArea = null;
@@ -22,15 +23,16 @@ public class EnemyActions : MonoBehaviour
     
     void FixedUpdate()
     {
+        pathing = navMeshAgent.hasPath && navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance;
+
         if (normalPathfinding)
         {
             // Debug.Log(navMeshAgent.hasPath);
             // during normal pathfinding
-            if (navMeshAgent.hasPath && navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance)
+            if (pathing)
             {
                 // assumes path endpoint is reachable
                 // nothing i guess
-                Debug.Log("pathing");
             } else
             {
                 waitingTimer -= Time.fixedDeltaTime;
@@ -52,8 +54,11 @@ public class EnemyActions : MonoBehaviour
             // abnormal pathfinding (usually overrides)
             if (isHexed)
             {
-                // go to a house and die
-                Destroy(this.gameObject);
+                if (!pathing)
+                {
+                    // got to a house.
+                    Destroy(this.gameObject);
+                }
             }
         }
     }
@@ -62,5 +67,6 @@ public class EnemyActions : MonoBehaviour
     {
         // villager is hexed and will now kill themselves.
         isHexed = true;
+        navMeshAgent.destination = door.transform.position;
     }
 }
