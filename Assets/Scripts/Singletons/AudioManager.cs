@@ -8,10 +8,13 @@ public class AudioManager : MonoBehaviour
     [SerializeField] private int audioSfxMax;
     private List<AudioSource> audioSources;
     private List<AudioSource> musicTracks;
-    private float sfxVol;
-    private float musVol;
-    [SerializeField] private float sfxDefault;
-    [SerializeField] private float musDefault;
+    private float sfxVol = 1;
+    private float musVol = 1;
+    [SerializeField] private float sfxDefault = 1;
+    [SerializeField] private float musDefault = 1;
+    public AudioSource ambienceSource;
+    public AudioSource crowdingSource;
+    public AudioSource themeSource;
 
     void Awake()
     {
@@ -21,6 +24,8 @@ public class AudioManager : MonoBehaviour
         MenuManager.gameStart += GameStart;
         audioSources = new();
         musicTracks = new();
+        PlayAudioSource(false, ambienceSource);
+        PlayAudioSource(false, themeSource);
     }
 
     private void GameStart()

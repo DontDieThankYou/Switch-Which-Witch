@@ -1,3 +1,6 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
 using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
@@ -8,6 +11,9 @@ public class MouseHover : MonoBehaviour
     EnemyActions highlightedVillager;
     public LayerMask villagerLayer;
     PlayerInput input;
+    public AudioClip[] accuse;
+    public AudioSource accuseSource;
+    public AudioSource HexSource;
 
     void Start()
     {
@@ -23,7 +29,7 @@ public class MouseHover : MonoBehaviour
             && hitInfo.transform.TryGetComponent<Outline>(out Outline outline)
             && hitInfo.transform.parent != null
             && hitInfo.transform.parent.TryGetComponent<EnemyActions>(out EnemyActions actions)
-            && !actions.isHexed)
+            && !actions.isHexed && !actions.isAccused)
         {
             if(objectHighlighted != null && objectHighlighted != outline)
             {
@@ -52,18 +58,24 @@ public class MouseHover : MonoBehaviour
             && hitInfo.transform.TryGetComponent<Outline>(out Outline outline)
             && hitInfo.transform.parent != null
             && hitInfo.transform.parent.TryGetComponent<EnemyActions>(out EnemyActions actions)
-            && !actions.isHexed)
+            && !actions.isHexed
+            && !actions.isAccused)
         {
             if(PlayerController.instance.isAccusing)
             {
                 outline.Activate(Color.red);
                 VillageParanoia.instance.AttemptAccuse(actions);
                 HUDController.INSTANCE.CancelAccuse();
+
+                int index = UnityEngine.Random.Range(0,accuse.Count());
+                accuseSource.clip = accuse[index];
+                AudioManager.instance.PlayAudioSource(true, accuseSource);
             }
             else
             {
                 outline.Activate(Color.blue);
                 actions.Hex();
+                AudioManager.instance.PlayAudioSource(true, HexSource);
             }
         }
         }

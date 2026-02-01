@@ -15,6 +15,9 @@ public class PlayerController : MonoBehaviour
     public static PlayerController instance;
 
     [Header("Design values")]
+    public float StepTime = 0.25f;
+    public float StepTimer;
+    public AudioSource StepAudioSource;
     [SerializeField] float moveSpeed = 1;
     [SerializeField] float talismanCraftingTime = 1;
     [SerializeField] float talismanPlacementTime = 1;
@@ -48,6 +51,8 @@ public class PlayerController : MonoBehaviour
     public bool hasLyncher;
 
     public PlayerInput playerInput;
+    public AudioSource talismanRustle;
+    public AudioSource talismanPlace;
 
     void Awake()
     {
@@ -93,6 +98,20 @@ public class PlayerController : MonoBehaviour
         // moving
         if(!isCrafting && !isPlacingTalisman)
         {
+            if(moveDir != Vector2.zero)
+            {
+                StepTimer += Time.fixedDeltaTime;
+                if(StepTimer > StepTime)
+                {
+                    StepAudioSource.pitch = UnityEngine.Random.Range(0.95f, 1.05f);
+                    AudioManager.instance.PlayAudioSource(true, StepAudioSource);
+                }
+                StepTimer = 0;
+            }
+            else
+            {
+                StepTimer = 0;
+            }
             Vector2 vel = moveDir * moveSpeed;
             PlayerRoot.linearVelocity = new Vector3(vel.x, 0, vel.y);
         }
@@ -105,6 +124,8 @@ public class PlayerController : MonoBehaviour
                 if(talismanPlacementTimer <= 0 && currentInteractable.TryGetGameObject(out GameObject g))
                 {
                     House h = g.GetComponent<House>();
+                    
+                    AudioManager.instance.PlayAudioSource(true, talismanPlace);
                     h.PlaceTalisman();
                     TalismanHUDController.INSTANCE.Interact();
 
@@ -208,6 +229,8 @@ public class PlayerController : MonoBehaviour
                 switch (t)
                 {
                     case InteractableType.House:
+                    
+                        AudioManager.instance.PlayAudioSource(true, talismanPlace);
                         isPlacingTalisman = true;
                         talismanPlacementTimer = talismanPlacementTime;
                         break;
@@ -246,6 +269,7 @@ public class PlayerController : MonoBehaviour
         isCrafting = true;
         talismanCraftingTimer = talismanCraftingTime;
         TalismanHUDController.INSTANCE.IsFilling(true);
+        AudioManager.instance.PlayAudioSource(true, talismanRustle);
     }
     private void InputCraftCanceled(InputAction.CallbackContext ctx)
     {
