@@ -29,7 +29,6 @@ public class EnemyVision : MonoBehaviour
 
         playerInVision = false;
         // vision detection
-        Debug.Log(string.Format("within distance {0}, within cone {1}", withinDistance, withinCone));
         if (withinDistance && withinCone)
         {
             playerInVision = true;
