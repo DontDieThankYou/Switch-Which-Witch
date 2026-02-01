@@ -56,6 +56,9 @@ public class PlayerController : MonoBehaviour
     public float nightmareTimer;
     public float nightmareTime;
     public AudioSource nightMareSource;
+
+    public ParticleSystem ps;
+
     void Awake()
     {
         if(instance != null) Destroy(this);
@@ -320,6 +323,11 @@ public class PlayerController : MonoBehaviour
     public void IncrementSus(float newSus)
     {
         suspicion += newSus;
+        float scaling = 1 + newSus/100;
+
+        Vector3 curr = ps.transform.localScale;
+        ps.transform.localScale = new Vector3 (scaling*curr.x, scaling*curr.y, scaling*curr.z);
+
         if(suspicion >= suspicionThreshold)
         {
             Cleanup();
@@ -329,6 +337,7 @@ public class PlayerController : MonoBehaviour
             isCrafting = false;
             IsBeingLynched = true;
             VillageParanoia.instance.LynchPlayer();
+            ps.Stop(true, ParticleSystemStopBehavior.StopEmittingAndClear);
         }
     }
 }
