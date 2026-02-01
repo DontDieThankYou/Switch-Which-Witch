@@ -5,6 +5,9 @@ public class HUDController : MonoBehaviour
 {
     public static HUDController INSTANCE;
     private CanvasGroup cg;
+    [SerializeField] GameObject accuseVolume;
+
+    private PlayerController playerController;
 
     private bool accused = false;
 
@@ -16,6 +19,11 @@ public class HUDController : MonoBehaviour
     {
         INSTANCE = this;
         cg = GetComponent<CanvasGroup>();
+    }
+
+    void Start()
+    {
+        playerController = PlayerController.instance;
     }
 
     public void ToggleHUD(bool toggleOn)
@@ -39,6 +47,15 @@ public class HUDController : MonoBehaviour
                 canClick = true;
             });
 
+            if (playerController.isCrafting)
+            {
+                playerController.CraftCanceled();
+            }
+            playerController.InteractCanceled();
+
+            playerController.isAccusing = true;
+            accuseVolume.SetActive(true);
+
         } else
         {
             // turn off accuse 
@@ -48,6 +65,8 @@ public class HUDController : MonoBehaviour
             {
                canClick = true; 
             });
+
+            accuseVolume.SetActive(false);
         }
 
         accused = !accused;
@@ -63,6 +82,8 @@ public class HUDController : MonoBehaviour
         {
             canClick = true; 
         });
+
+        VillageParanoia.instance.AttemptAccuse();
     }
 
     

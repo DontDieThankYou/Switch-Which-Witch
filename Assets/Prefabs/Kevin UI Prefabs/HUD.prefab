@@ -326,6 +326,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 19b2e6059447e78429874af85ed1a90c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: '::'
+  accuseVolume: {fileID: 0}
   colouredAccuse: {fileID: 8553389504977521055}
 --- !u!225 &6636133389339332437
 CanvasGroup:
@@ -336,7 +337,7 @@ CanvasGroup:
   m_GameObject: {fileID: 1345209352284776067}
   m_Enabled: 1
   m_Alpha: 1
-  m_Interactable: 0
+  m_Interactable: 1
   m_BlocksRaycasts: 1
   m_IgnoreParentGroups: 0
 --- !u!1 &1713103216660917882
