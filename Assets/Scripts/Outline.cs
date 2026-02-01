@@ -29,7 +29,7 @@ public class Outline : MonoBehaviour
     }
     public void Activate(Color color, float scale = 1.2f)
     {
-        outlineRenderer.transform.localScale = transform.localScale * scale;
+        outlineRenderer.transform.localScale = new Vector3(transform.localScale.x * scale, transform.localScale.y * scale * 0.9f, transform.localScale.z * scale);
         outlineRenderer.color = color;
         outlineRenderer.enabled = true;
     }
