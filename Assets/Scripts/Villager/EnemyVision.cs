@@ -5,6 +5,7 @@ public class EnemyVision : MonoBehaviour
     [SerializeField] float angle;
     [SerializeField] float range;
     PlayerController player;
+    [SerializeField] float offset;
 
     public bool playerInVision = false;
 
@@ -21,6 +22,7 @@ public class EnemyVision : MonoBehaviour
     void FixedUpdate()
     {
 
+        //Physics detction
         bool withinDistance = Vector2.Distance(DimensionConverter.XYZtoXZ(player.transform.position),
                                                DimensionConverter.XYZtoXZ(this.transform.position)) < range;
 
@@ -38,7 +40,7 @@ public class EnemyVision : MonoBehaviour
         {
             // TODO: todo.
             // player.suspicion += 1;
-            Debug.LogWarning("player suspicion increase to implement");
+            //Debug.LogWarning("player suspicion increase to implement");
         }
     }
 }

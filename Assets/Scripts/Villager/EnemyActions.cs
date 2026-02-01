@@ -12,7 +12,7 @@ public class EnemyActions : MonoBehaviour
 
     bool normalPathfinding = true;
     bool pathing = false;
-    bool isHexed = false;
+    public bool isHexed = false;
     [SerializeField] float waitingTimer = 0.0f;
     NavArea currentNavArea = null;
 
