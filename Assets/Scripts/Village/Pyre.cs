@@ -21,16 +21,19 @@ public class Pyre : MonoBehaviour
         isBurning = true;
         villagerSP.sprite = villagerVariants[villVar];
         villagerSP.enabled = true;
-        VillageParanoia.susTied = true;
+        VillageParanoia.instance.SetSusTied(true);
     }
-    public void LightPyre(){}
+    public void LightPyre()
+    {
+        
+    }
     public void DismissPyre()
     {
         if (!isBurning) return;
+        isBurning = false;
         int index = Random.Range(0,burns.Count());
         audioSource.clip = burns[index];
         AudioManager.instance.PlayAudioSource(true, audioSource);
-        isBurning = false;
         villagerSP.enabled = false;
     }
 }

@@ -60,7 +60,9 @@ public class AudioManager : MonoBehaviour
     {
         List<AudioSource> ls = isSFX ? audioSources : musicTracks;
         //Lazy removal of done audio sources
-        foreach(AudioSource AuSo in ls) if(!AuSo.isPlaying) ls.Remove(AuSo);
+        List<AudioSource> toRemove = new();
+        foreach(AudioSource AuSo in ls) if(!AuSo.isPlaying) toRemove.Add(AuSo);
+        foreach(AudioSource AuSo in toRemove) ls.Remove(AuSo);
         
         ls.Add(source);
         source.Play(delay);

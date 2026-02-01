@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 98687104515214265}
   - component: {fileID: 7990442574180985496}
   - component: {fileID: 1018050595600141848}
+  - component: {fileID: 3077913659159699683}
   m_Layer: 0
   m_Name: Villager
   m_TagString: Untagged
@@ -72,10 +73,35 @@ MonoBehaviour:
   navMeshAgent: {fileID: 7990442574180985496}
   isHexed: 0
   waitingTimer: 0
+  isAccused: 0
+  pyreDetectDist: 10
   isLyncher: 0
   lynchedType: 0
   villType: 0
   animController: {fileID: 6701342168057960845}
+--- !u!136 &3077913659159699683
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6648904564105515940}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 1
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Radius: 2
+  m_Height: 2
+  m_Direction: 1
+  m_Center: {x: 0, y: 0, z: 0}
 --- !u!1 &8295112259189781188
 GameObject:
   m_ObjectHideFlags: 0
@@ -90,6 +116,7 @@ GameObject:
   - component: {fileID: 1310704184327824385}
   - component: {fileID: 8555468903570295890}
   - component: {fileID: 6701342168057960845}
+  - component: {fileID: 2228577136046642893}
   m_Layer: 6
   m_Name: Display
   m_TagString: Untagged
@@ -242,6 +269,33 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!54 &2228577136046642893
+Rigidbody:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8295112259189781188}
+  serializedVersion: 5
+  m_Mass: 1
+  m_LinearDamping: 0
+  m_AngularDamping: 0.05
+  m_CenterOfMass: {x: 0, y: 0, z: 0}
+  m_InertiaTensor: {x: 1, y: 1, z: 1}
+  m_InertiaRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ImplicitCom: 1
+  m_ImplicitTensor: 1
+  m_UseGravity: 0
+  m_IsKinematic: 0
+  m_Interpolate: 0
+  m_Constraints: 0
+  m_CollisionDetection: 0
 --- !u!1 &8856723292921614829
 GameObject:
   m_ObjectHideFlags: 0

@@ -28,7 +28,6 @@ public class VillagerSpawner : MonoBehaviour
         
         GameObject villager = Instantiate(villPrefab, position, Quaternion.identity, this.transform);
         // does this do anything??
-        Debug.Log(villType);
         villager.GetComponentInChildren<SpriteRenderer>().sprite = villsprites[villType];
         villager.GetComponentInChildren<Animator>().runtimeAnimatorController = villtypes[villType];
         villager.GetComponent<EnemyActions>().villType = villType;

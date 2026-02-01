@@ -331,10 +331,9 @@ MonoBehaviour:
   globalVolume: {fileID: 0}
   accuseVolume: {fileID: 0}
   audioSource: {fileID: 8002379113388340390}
-  loopSource: {fileID: 0}
+  loopSource: {fileID: 6529513917015725009}
   AccuseOff: {fileID: 8300000, guid: ee61175ed3c5df7489f7983993589a26, type: 3}
   AccuseOn: {fileID: 8300000, guid: 8167eafb7b02dcd4c96d23de0a34aa5b, type: 3}
-  AccuseLoop: {fileID: 0}
   colouredAccuse: {fileID: 8553389504977521055}
 --- !u!225 &6636133389339332437
 CanvasGroup:
@@ -360,7 +359,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
@@ -457,7 +456,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 8300000, guid: 2bf8c7c8a6aeb734f85f1a3c7385cc94, type: 3}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 1

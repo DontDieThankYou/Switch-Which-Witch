@@ -98,7 +98,7 @@ public class HUDController : MonoBehaviour
     // from Kevin -call this when you perform an accuse action to automatically do the 
     public void CancelAccuse()
     {
-        if (!accused) return;
+        if (playerController.isAccusing) return;
 
         canClick = false;
         colouredAccuse.DOFade(0f,1f).OnComplete(() =>

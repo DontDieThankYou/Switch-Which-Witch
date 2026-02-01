@@ -30,6 +30,7 @@ public class EnemyActions : MonoBehaviour
     bool isTouchingPyre;
     [SerializeField] Animator animController;
     public static bool isCrowding;
+    public Coroutine lynchCoroutine;
 
     void Awake()
     {
@@ -146,9 +147,32 @@ public class EnemyActions : MonoBehaviour
 
     public void LynchAt(Vector3 position)
     {
-        StartCoroutine(Lynch(position));
+        if(lynchCoroutine != null)
+        {
+            StopCoroutine(lynchCoroutine);
+            lynchCoroutine = null;
+        }
+        lynchCoroutine = StartCoroutine(Lynch(position));
     }
-
+    public void SkipLynch()
+    {
+        if(lynchCoroutine != null)
+        {
+            StopCoroutine(lynchCoroutine);
+            lynchCoroutine = null;
+        }
+        isAccused = false;
+        susCaught = false;
+        isLyncher = false;
+        Pyre.instance.DismissPyre();
+        normalPathfinding = true;
+        // then resume normal pathfinding
+        navMeshAgent.speed = 10.0f;
+        normalPathfinding = true;
+        navMeshAgent.isStopped = false;
+        AudioManager.instance.crowdingSource.Stop();
+        PickNewLocation();
+    }
     IEnumerator Lynch(Vector3 position)
     {
         isMoving = false;
@@ -163,6 +187,7 @@ public class EnemyActions : MonoBehaviour
         // path to position for duration
         navMeshAgent.destination = position;
         navMeshAgent.isStopped = false;
+        VillageParanoia.instance.resetTimerTime();
         while(!VillageParanoia.susCaught)
         {
             yield return null;
@@ -170,6 +195,8 @@ public class EnemyActions : MonoBehaviour
         AudioManager.instance.PlayAudioSource(true, AudioManager.instance.crowdingSource);
         // then walk towards offset position in town center
         navMeshAgent.destination = pyreLocation;
+        
+        VillageParanoia.instance.resetTimerTime();
         while(!VillageParanoia.susTied)
         {
             yield return null;
@@ -187,9 +214,8 @@ public class EnemyActions : MonoBehaviour
             this.transform.position = Vector3.Lerp(startPosition, targetPosition, i / maxFrames);
             yield return new WaitForFixedUpdate();
         }
-
         // light pyre here
-
+        Pyre.instance.LightPyre();
         // burn
         float timer = 0;
         float initVolume = AudioManager.instance.crowdingSource.volume;
@@ -199,7 +225,6 @@ public class EnemyActions : MonoBehaviour
             yield return null;
             AudioManager.instance.crowdingSource.volume = Mathf.Lerp(initVolume, 0, timer/5f);
         }// BURNNNNNNNNNNNNNNNNNN
-
         Pyre.instance.DismissPyre();
         normalPathfinding = true;
         // then resume normal pathfinding
@@ -216,13 +241,14 @@ public class EnemyActions : MonoBehaviour
         if(villagers.Count > 0)
         {
             villagers[0].MakeLyncher(villType);
-            VillageParanoia.susCaught = true;
+            VillageParanoia.instance.SetSusCaught(true);
             // Do fx here
             Destroy(this.gameObject);
         }
     }
     public void OnTriggerEnter(Collider other)
     {
+        Debug.Log("TriggerEnter: " + other.name);
         if(other.transform.parent != null
             && other.transform.parent.TryGetComponent<EnemyActions>(out EnemyActions o))
         {
@@ -232,6 +258,7 @@ public class EnemyActions : MonoBehaviour
                 CatchSus();
             }
             villagers.Add(o);
+                Debug.Log(other.name);
         }
     }
     
@@ -249,12 +276,13 @@ public class EnemyActions : MonoBehaviour
     }
     void CatchSus()
     {
-        VillageParanoia.susCaught = true;
+        VillageParanoia.instance.SetSusCaught(true);
         // Do fx here
         Destroy(this.gameObject);
     }
     public void MakeLyncher(int villType)
     {
+        VillageParanoia.villagers.Remove(this.gameObject);
         isLyncher = true;
         if(isTouchingPyre) Pyre.instance.TiePyre(lynchedType);
         lynchedType = villType;

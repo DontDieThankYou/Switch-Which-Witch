@@ -10,6 +10,8 @@ public class VillageParanoia : MonoBehaviour
 
     public float paranoia = 0;
     public readonly float accusationThreshold = 10;
+    public float resetTime = 5;
+    public float resetTimer = 0;
 
     void Awake()
     {
@@ -17,15 +19,49 @@ public class VillageParanoia : MonoBehaviour
         
         instance = this;
     }
-
+    void FixedUpdate()
+    {
+        if((!susCaught || !susTied) && resetTimer >= 0)
+        {
+            resetTimer -= Time.fixedDeltaTime;
+            if(resetTimer < 0)
+            {
+                Reset();
+            }
+        }
+    }
+    public void resetTimerTime()
+    {
+        resetTimer = resetTime;
+    }
+    public void SetSusCaught(bool val)
+    {
+        susCaught = val;
+        resetTimer = resetTime;
+    }
+    
+    public void SetSusTied(bool val)
+    {
+        susTied = val;
+        resetTimer = resetTime;
+    }
+    void Reset()
+    {
+        foreach(GameObject g in villagers)
+        {
+            EnemyActions v = g.GetComponent<EnemyActions>();
+            v.SkipLynch();
+        }
+    }
     public void AttemptAccuse(EnemyActions villager)
     {
         VillagePyreDestination.Reset();
-        if (paranoia > accusationThreshold)
+        if (true || paranoia > accusationThreshold)
         {
             susCaught = false;
             susTied = false;
             Accuse(villager);
+            HUDController.INSTANCE.CancelAccuse();
             return;
         }
         AccusePlayer();

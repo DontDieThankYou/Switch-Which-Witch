@@ -65,7 +65,7 @@ public class MouseHover : MonoBehaviour
             {
                 outline.Activate(Color.red);
                 VillageParanoia.instance.AttemptAccuse(actions);
-                HUDController.INSTANCE.CancelAccuse();
+                //HUDController.INSTANCE.CancelAccuse();
 
                 int index = UnityEngine.Random.Range(0,accuse.Count());
                 accuseSource.clip = accuse[index];

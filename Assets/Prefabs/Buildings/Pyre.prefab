@@ -76,7 +76,7 @@ MonoBehaviour:
   burns:
   - {fileID: 8300000, guid: cd9905bb2603eb6438efd1853ea5bdbf, type: 3}
   - {fileID: 8300000, guid: 9edf8a2490087c545a42ffc672e23199, type: 3}
-  audioSource: {fileID: 0}
+  audioSource: {fileID: 6079286602311250509}
 --- !u!82 &6079286602311250509
 AudioSource:
   m_ObjectHideFlags: 0
@@ -89,7 +89,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_Resource: {fileID: 0}
-  m_PlayOnAwake: 1
+  m_PlayOnAwake: 0
   m_Volume: 1
   m_Pitch: 1
   Loop: 0
