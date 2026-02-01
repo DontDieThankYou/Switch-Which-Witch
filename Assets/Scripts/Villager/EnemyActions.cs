@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
@@ -17,10 +18,18 @@ public class EnemyActions : MonoBehaviour
     public bool isHexed = false;
     [SerializeField] float waitingTimer = 0.0f;
     NavArea currentNavArea = null;
+    bool isMoving = true;
+    bool isAccused = false;
+    bool susCaught = false;
+    List<EnemyActions> villagers;
+    public bool isLyncher = false;
+    public int lynchedType = 0;
+    public int villType = 0;
 
     void Awake()
     {
         VillageParanoia.villagers.Add(this.gameObject);
+        villagers = new();
     }
 
     void Start()
@@ -32,6 +41,7 @@ public class EnemyActions : MonoBehaviour
     
     void FixedUpdate()
     {
+        if(!isMoving) return;
         pathing = navMeshAgent.hasPath && navMeshAgent.remainingDistance > navMeshAgent.stoppingDistance;
 
         if (normalPathfinding)
@@ -70,8 +80,8 @@ public class EnemyActions : MonoBehaviour
         isHexed = true;
         navMeshAgent.destination = door.transform.position;
 
-        PlayerController.instance.suspicion += PlayerController.instance.hexPoints.suspicion;
-        VillageParanoia.instance.Paranoia += PlayerController.instance.hexPoints.paranoia;
+        PlayerController.instance.IncrementSus(PlayerController.instance.hexPoints.suspicion);
+        VillageParanoia.instance.paranoia += PlayerController.instance.hexPoints.paranoia;
     }
 
     void PickNewLocation()
@@ -87,7 +97,7 @@ public class EnemyActions : MonoBehaviour
         waitingTimer = Random.Range(3.0f, 5.0f);
     }
 
-    void LynchAt(Vector3 position)
+    public void LynchAt(Vector3 position)
     {
         StartCoroutine(Lynch(position));
     }
@@ -106,15 +116,22 @@ public class EnemyActions : MonoBehaviour
         // path to position for duration
         navMeshAgent.destination = position;
         navMeshAgent.isStopped = false;
-        yield return new WaitForSeconds(4.0f); // become mob
+        while(!VillageParanoia.susCaught)
+        {
+            yield return null;
+        }
+        yield return new WaitForSeconds(2f); // become mob
 
         navMeshAgent.isStopped = true;
         yield return new WaitForSeconds(1.0f); // pause!
 
         // then walk towards offset position in town center
-        navMeshAgent.destination = this.transform.position - position + pyreLocation;
+        navMeshAgent.destination = pyreLocation;
         navMeshAgent.isStopped = false;
-        yield return new WaitForSeconds(8.0f); // walking mob
+        while(!VillageParanoia.susTied)
+        {
+            yield return null;
+        }
 
         // spawn pyre here
 
@@ -135,9 +152,68 @@ public class EnemyActions : MonoBehaviour
         // burn
         yield return new WaitForSeconds(5.0f); // BURNNNNNNNNNNNNNNNNNN
 
+        Pyre.instance.DismissPyre();
+
         // then resume normal pathfinding
         navMeshAgent.speed = 10.0f;
         normalPathfinding = true;
         navMeshAgent.isStopped = false;
+    }
+    public void BeAccused()
+    {
+        isMoving = false;
+        navMeshAgent.isStopped = true;
+        isAccused = true;
+        if(villagers.Count > 0)
+        {
+            villagers[0].MakeLyncher(villType);
+            VillageParanoia.susCaught = true;
+            // Do fx here
+            Destroy(this);
+        }
+    }
+    public void OnTriggerEnter(Collider other)
+    {
+        if(other.transform.parent != null
+            && other.transform.parent.TryGetComponent<EnemyActions>(out EnemyActions o))
+        {
+            if(isAccused)
+            {
+                o.MakeLyncher(villType);
+                CatchSus();
+            }
+            villagers.Add(o);
+        }
+        
+        if(other.CompareTag("Pyre") && isLyncher)
+        {
+            //Do VFX
+
+            Pyre.instance.TiePyre(lynchedType);
+        }
+    }
+    
+    public void OnTriggerExit(Collider other)
+    {
+        if(other.transform.parent != null
+            && other.transform.parent.TryGetComponent<EnemyActions>(out EnemyActions o))
+        {
+            villagers.Remove(o);
+        }
+    }
+    void OnDestroy()
+    {
+        VillageParanoia.villagers.Remove(this.gameObject);
+    }
+    void CatchSus()
+    {
+        VillageParanoia.susCaught = true;
+        // Do fx here
+        Destroy(this);
+    }
+    public void MakeLyncher(int villType)
+    {
+        isLyncher = true;
+        lynchedType = villType;
     }
 }
