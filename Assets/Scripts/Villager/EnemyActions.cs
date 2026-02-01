@@ -71,7 +71,7 @@ public class EnemyActions : MonoBehaviour
         navMeshAgent.destination = door.transform.position;
 
         PlayerController.instance.suspicion += PlayerController.instance.hexPoints.suspicion;
-        VillageParanoia.instance.paranoia += PlayerController.instance.hexPoints.paranoia;
+        VillageParanoia.instance.Paranoia += PlayerController.instance.hexPoints.paranoia;
     }
 
     void PickNewLocation()
