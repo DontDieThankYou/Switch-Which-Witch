@@ -37,4 +37,9 @@ public class House : MonoBehaviour, IInteractable
         g = this.gameObject;
         return true;
     }
+
+    public InteractableType GetInteractableType()
+    {
+        return InteractableType.House;
+    }
 }

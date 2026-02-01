@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
@@ -12,13 +13,14 @@ using UnityEngine.InputSystem;
 public class PlayerController : MonoBehaviour
 {
     public static PlayerController instance;
+
     [Header("Design values")]
     [SerializeField] float moveSpeed = 1;
     [SerializeField] float talismanCraftingTime = 1;
     [SerializeField] float talismanPlacementTime = 1;
     Vector2 moveDir = Vector2.zero;
     [SerializeField] Rigidbody PlayerRoot;
-    List<IInteractable> interactables;
+    public List<IInteractable> interactables;
     IInteractable currentInteractable;
     [HideInInspector]public bool isShadowed;
     [HideInInspector]public bool isCrafting;
@@ -29,11 +31,16 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]public float talismanPlacementTimer;
     [SerializeField]private Animator animController;
     [HideInInspector] public float suspicion = 0.0f;
+
     [Header("Points")]
     [SerializeField] public ActionPoints nightmarePoints;
     [SerializeField] public ActionPoints talismanPoints;
     [SerializeField] public ActionPoints hexPoints;
     VillageParanoia villageParanoia;
+
+    [Header("Kevin")]
+    public Action<IInteractable> enterInteractable;
+    public Action<IInteractable> exitInteractable;
 
 
     PlayerInput playerInput;
@@ -95,11 +102,19 @@ public class PlayerController : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if(other.TryGetComponent(out IInteractable interactable)) interactables.Add(interactable);
+        if(other.TryGetComponent(out IInteractable interactable))
+        {
+            interactables.Add(interactable);
+            enterInteractable?.Invoke(interactable);  
+        } 
     }
     void OnTriggerExit(Collider other)
     {
-        if(other.TryGetComponent(out IInteractable interactable)) interactables.Remove(interactable);
+        if(other.TryGetComponent(out IInteractable interactable))
+        {
+            interactables.Remove(interactable);
+            exitInteractable?.Invoke(interactable);  
+        } 
     }
     private void MovePerformed(InputAction.CallbackContext ctx)
     {
