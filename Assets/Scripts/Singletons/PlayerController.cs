@@ -89,14 +89,14 @@ public class PlayerController : MonoBehaviour
     {
         if(PlayerRoot == null) return;
 
+        // moving
+        if(!isCrafting && !isPlacingTalisman)
+        {
+            Vector2 vel = moveDir * moveSpeed;
+            PlayerRoot.linearVelocity = new Vector3(vel.x, 0, vel.y);
+        }
         if (!isAccusing)
         {
-
-            if(!isCrafting && !isPlacingTalisman)
-            {
-                Vector2 vel = moveDir * moveSpeed;
-                PlayerRoot.linearVelocity = new Vector3(vel.x, 0, vel.y);
-            }
             if(isPlacingTalisman && hasTalisman)
             {
                 talismanPlacementTimer -= Time.fixedDeltaTime;
