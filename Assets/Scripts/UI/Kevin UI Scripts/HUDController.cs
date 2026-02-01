@@ -82,8 +82,6 @@ public class HUDController : MonoBehaviour
         {
             canClick = true; 
         });
-
-        VillageParanoia.instance.AttemptAccuse();
     }
 
     

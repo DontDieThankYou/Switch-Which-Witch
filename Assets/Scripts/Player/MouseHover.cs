@@ -57,6 +57,7 @@ public class MouseHover : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
                 {
                     objectHighlighted.Activate(Color.red);
                     VillageParanoia.instance.AttemptAccuse(actions);
+                    HUDController.INSTANCE.CancelAccuse();
                 }
                 else
                 {
