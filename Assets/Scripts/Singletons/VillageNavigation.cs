@@ -41,7 +41,10 @@ public class VillageNavigation : MonoBehaviour
             value -= navAreaInstance.weight;
         }
 
-        Assert.IsNotNull(navArea);
+        if (navArea == null)
+        {
+            return null;
+        }
         return navArea;
     }
 

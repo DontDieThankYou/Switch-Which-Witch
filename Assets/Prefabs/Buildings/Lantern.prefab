@@ -153,6 +153,10 @@ PrefabInstance:
       propertyPath: LightsModule.intensityCurve.scalar
       value: 0.9
       objectReference: {fileID: 0}
+    - target: {fileID: 1311295950720715373, guid: b5c9f1e11f32d0b4cafdf7f85bd5d70d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 3388375098831028387, guid: b5c9f1e11f32d0b4cafdf7f85bd5d70d, type: 3}
       propertyPath: LightsModule.ratio
       value: 0.7
@@ -185,6 +189,10 @@ PrefabInstance:
       propertyPath: m_BoundingSphereOverride.z
       value: 2.1e-44
       objectReference: {fileID: 0}
+    - target: {fileID: 6637727214970171250, guid: b5c9f1e11f32d0b4cafdf7f85bd5d70d, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 6853640048330011483, guid: b5c9f1e11f32d0b4cafdf7f85bd5d70d, type: 3}
       propertyPath: m_IsActive
       value: 0
@@ -214,16 +222,12 @@ PrefabInstance:
       value: 1.3
       objectReference: {fileID: 0}
     - target: {fileID: 8486135760864694160, guid: b5c9f1e11f32d0b4cafdf7f85bd5d70d, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0.24
-      objectReference: {fileID: 0}
-    - target: {fileID: 8486135760864694160, guid: b5c9f1e11f32d0b4cafdf7f85bd5d70d, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 2.295
+      value: 2.49
       objectReference: {fileID: 0}
     - target: {fileID: 8486135760864694160, guid: b5c9f1e11f32d0b4cafdf7f85bd5d70d, type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.82
+      value: -0.88
       objectReference: {fileID: 0}
     - target: {fileID: 8486135760864694160, guid: b5c9f1e11f32d0b4cafdf7f85bd5d70d, type: 3}
       propertyPath: m_LocalRotation.w
