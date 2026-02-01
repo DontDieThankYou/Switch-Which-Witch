@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 public class House : MonoBehaviour, IInteractable
@@ -6,10 +7,12 @@ public class House : MonoBehaviour, IInteractable
     public bool isLightsOn = true;
     [SerializeField] public SpriteRenderer talisman;
     [SerializeField] public Light talismanHalo;
+    public static List<Vector3> doors = new();
     void Awake()
     {
         talisman.enabled = hasTalisman;
         talismanHalo.enabled = hasTalisman;
+        doors.Add(transform.position);
     }
 
     public InteractableType Interact()
