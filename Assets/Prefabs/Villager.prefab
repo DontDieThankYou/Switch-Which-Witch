@@ -73,6 +73,9 @@ MonoBehaviour:
   door: {fileID: 0}
   isHexed: 0
   waitingTimer: 0
+  isLyncher: 0
+  lynchedType: 0
+  villType: 0
 --- !u!1 &8295112259189781188
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +211,7 @@ CapsuleCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 2

@@ -2,23 +2,23 @@ using UnityEngine;
 using UnityEngine.EventSystems;
 using UnityEngine.InputSystem;
 
-public class MouseHover : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
+public class MouseHover : MonoBehaviour
 {
     Outline objectHighlighted;
     EnemyActions highlightedVillager;
     public LayerMask villagerLayer;
-    private Outline onDownObject;
-    private EnemyActions onDownVillager;
+    PlayerInput input;
 
-    void Awake()
+    void Start()
     {
-        
+        input = PlayerController.instance.playerInput;
+        input.actions["Click"].performed += OnPointerUp;
     }
     // Update is called once per frame
     void Update()
     {
         Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        
+
         if(Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, villagerLayer)
             && hitInfo.transform.TryGetComponent<Outline>(out Outline outline)
             && hitInfo.transform.parent != null
@@ -33,6 +33,7 @@ public class MouseHover : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
             {
                 objectHighlighted = outline;
                 objectHighlighted.Activate(Color.purple);
+                highlightedVillager = actions;
             }
         }
         else if(objectHighlighted != null)
@@ -42,43 +43,33 @@ public class MouseHover : MonoBehaviour, IPointerDownHandler, IPointerUpHandler
         }
     }
 
-    public void OnPointerUp(PointerEventData eventData)
+    public void OnPointerUp(InputAction.CallbackContext ctx)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (ctx.ReadValue<float>() <= 0)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         if(Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, villagerLayer)
             && hitInfo.transform.TryGetComponent<Outline>(out Outline outline)
             && hitInfo.transform.parent != null
             && hitInfo.transform.parent.TryGetComponent<EnemyActions>(out EnemyActions actions)
             && !actions.isHexed)
         {
-            if(outline == onDownObject && actions == onDownVillager)
+            if(PlayerController.instance.isAccusing)
             {
-                if(PlayerController.instance.isAccusing)
-                {
-                    objectHighlighted.Activate(Color.red);
-                    VillageParanoia.instance.AttemptAccuse(actions);
-                    HUDController.INSTANCE.CancelAccuse();
-                }
-                else
-                {
-                    objectHighlighted.Activate(Color.rebeccaPurple);
-                    onDownVillager.Hex();
-                }
+                outline.Activate(Color.red);
+                VillageParanoia.instance.AttemptAccuse(actions);
+                HUDController.INSTANCE.CancelAccuse();
+            }
+            else
+            {
+                outline.Activate(Color.blue);
+                actions.Hex();
             }
         }
-    }
-
-    public void OnPointerDown(PointerEventData eventData)
-    {
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
-        if(Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, villagerLayer)
-            && hitInfo.transform.TryGetComponent<Outline>(out Outline outline)
-            && hitInfo.transform.parent != null
-            && hitInfo.transform.parent.TryGetComponent<EnemyActions>(out EnemyActions actions)
-            && !actions.isHexed)
-        {
-            onDownObject = outline;
-            onDownVillager = actions;
         }
+    }
+    void OnDestroy()
+    {
+        input.actions["Click"].performed -= OnPointerUp;
     }
 }

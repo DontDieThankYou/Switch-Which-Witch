@@ -1,4 +1,5 @@
 using System.Runtime.CompilerServices;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class House : MonoBehaviour, IInteractable
@@ -8,13 +9,13 @@ public class House : MonoBehaviour, IInteractable
     [SerializeField] public SpriteRenderer talisman;
     [SerializeField] public Light talismanHalo;
     public ParticleSystem burstPs;
-    private BoxCollider collider;
 
+    public static List<Vector3> doors = new();
     void Awake()
     {
         talisman.enabled = hasTalisman;
         talismanHalo.enabled = hasTalisman;
-        collider = GetComponent<BoxCollider>();
+        doors.Add(transform.position);
     }
 
     public InteractableType Interact()

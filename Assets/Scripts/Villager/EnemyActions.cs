@@ -11,7 +11,6 @@ public class EnemyActions : MonoBehaviour
     [SerializeField] NavMeshAgent navMeshAgent;
     VillageNavigation villageNavigation;
     VillageParanoia villageParanoia;
-    [SerializeField] GameObject door;
 
     bool normalPathfinding = true;
     bool pathing = false;
@@ -78,7 +77,9 @@ public class EnemyActions : MonoBehaviour
     {
         // villager is hexed and will now kill themselves.
         isHexed = true;
-        navMeshAgent.destination = door.transform.position;
+        int index = Random.Range(0, House.doors.Count);
+        Debug.Log(index + " : " + House.doors.Count);
+        navMeshAgent.destination = House.doors[index];
 
         PlayerController.instance.IncrementSus(PlayerController.instance.hexPoints.suspicion);
         VillageParanoia.instance.paranoia += PlayerController.instance.hexPoints.paranoia;
