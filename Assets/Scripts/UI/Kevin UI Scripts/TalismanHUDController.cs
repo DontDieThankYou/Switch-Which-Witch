@@ -29,7 +29,6 @@ public class TalismanHUDController : MonoBehaviour
 
     public void IsFilling(bool toggleOn)
     {
-        Debug.Log($"{toggleOn} whaaattttt");
         if (toggleOn)
         {
             isFilling = true;
@@ -69,7 +68,6 @@ public class TalismanHUDController : MonoBehaviour
 
     public void Interact()
     {
-        Debug.Log("Interact!");
         IsFilling(false);
         isFilled = false;
         slider.value = 0f;

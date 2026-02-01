@@ -89,6 +89,7 @@ public class PlayerController : MonoBehaviour
     {
         if(PlayerRoot == null) return;
 
+        PlayerRoot.linearVelocity = Vector3.zero;
         // moving
         if(!isCrafting && !isPlacingTalisman)
         {

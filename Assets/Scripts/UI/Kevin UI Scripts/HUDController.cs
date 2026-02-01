@@ -5,6 +5,7 @@ public class HUDController : MonoBehaviour
 {
     public static HUDController INSTANCE;
     private CanvasGroup cg;
+    [SerializeField] GameObject globalVolume;
     [SerializeField] GameObject accuseVolume;
 
     private PlayerController playerController;
@@ -55,6 +56,7 @@ public class HUDController : MonoBehaviour
 
             playerController.isAccusing = true;
             accuseVolume.SetActive(true);
+            globalVolume.SetActive(false);
 
         } else
         {
@@ -66,6 +68,7 @@ public class HUDController : MonoBehaviour
                canClick = true; 
             });
 
+            globalVolume.SetActive(true);
             accuseVolume.SetActive(false);
         }
 

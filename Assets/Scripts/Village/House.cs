@@ -1,3 +1,4 @@
+using System.Runtime.CompilerServices;
 using UnityEngine;
 
 public class House : MonoBehaviour, IInteractable
@@ -6,10 +7,14 @@ public class House : MonoBehaviour, IInteractable
     public bool isLightsOn = true;
     [SerializeField] public SpriteRenderer talisman;
     [SerializeField] public Light talismanHalo;
+    public ParticleSystem burstPs;
+    private BoxCollider collider;
+
     void Awake()
     {
         talisman.enabled = hasTalisman;
         talismanHalo.enabled = hasTalisman;
+        collider = GetComponent<BoxCollider>();
     }
 
     public InteractableType Interact()
@@ -25,14 +30,15 @@ public class House : MonoBehaviour, IInteractable
     {
         hasTalisman = false;
         talisman.enabled = false;
-        talismanHalo.enabled = (false);
+        talismanHalo.enabled = false;
     }
     public void PlaceTalisman()
     {
         PlayerController.instance.hasTalisman = false;
         hasTalisman = true;
         talisman.enabled = true;
-        talismanHalo.enabled = (true);
+        talismanHalo.enabled = true;
+        burstPs.Play();
     }
 
     public void CancelInteract(){}
