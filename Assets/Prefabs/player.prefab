@@ -111,9 +111,10 @@ MonoBehaviour:
   PlayerRoot: {fileID: 3781625411396495538}
   isShadowed: 0
   isCrafting: 0
+  isPlacingTalisman: 0
   hasTalisman: 0
   talismanCraftingTimer: 0
-  talismanPlacementTimers: 0
+  talismanPlacementTimer: 0
   animController: {fileID: 5776538194101175549}
 --- !u!1 &3143220449394716748
 GameObject:
@@ -199,7 +200,7 @@ SpriteRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_MaskInteraction: 0
-  m_Sprite: {fileID: 21300000, guid: 2585d69ddcf614c409b137d4657b23e9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 93bb1d3c10896c24781ba0bd9e5e4585, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
