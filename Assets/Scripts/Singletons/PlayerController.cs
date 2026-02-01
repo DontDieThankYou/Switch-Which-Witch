@@ -96,7 +96,8 @@ public class PlayerController : MonoBehaviour
             Vector2 vel = moveDir * moveSpeed;
             PlayerRoot.linearVelocity = new Vector3(vel.x, 0, vel.y);
         }
-        if (!isAccusing)
+        if (true)
+        //if (!isAccusing)
         {
             if(isPlacingTalisman && hasTalisman)
             {

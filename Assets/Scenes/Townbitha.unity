@@ -5991,6 +5991,7 @@ GameObject:
   - component: {fileID: 450451871}
   - component: {fileID: 450451870}
   - component: {fileID: 450451869}
+  - component: {fileID: 450451872}
   m_Layer: 0
   m_Name: VillageBrain
   m_TagString: Untagged
@@ -6054,6 +6055,24 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &450451872
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 450451868}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 564b8b4e2f7974cee80d851bdd040be5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::VillagerSpawner
+  maxVillagers: 20
+  villtypes:
+  - {fileID: 9100000, guid: bf6f3ce6971ef8d4d9a7e240e4177df6, type: 2}
+  - {fileID: 9100000, guid: 9557e6966c4a3e34f844720ed56d628c, type: 2}
+  - {fileID: 9100000, guid: f34a5dbefb8daac42832b1f8a8c6ff87, type: 2}
+  villPrefab: {fileID: 6648904564105515940, guid: e63a9d841053e4bcea3f220cbc0c8d06, type: 3}
 --- !u!1 &459071930
 GameObject:
   m_ObjectHideFlags: 0

@@ -89,6 +89,7 @@ public class EnemyActions : MonoBehaviour
     {
         // villager is hexed and will now kill themselves.
         isHexed = true;
+        normalPathfinding = false;
         int index = Random.Range(0, House.doors.Count);
         Debug.Log(index + " : " + House.doors.Count);
         navMeshAgent.destination = House.doors[index];
@@ -176,7 +177,7 @@ public class EnemyActions : MonoBehaviour
             villagers[0].MakeLyncher(villType);
             VillageParanoia.susCaught = true;
             // Do fx here
-            Destroy(this);
+            Destroy(this.gameObject);
         }
     }
     public void OnTriggerEnter(Collider other)
@@ -209,7 +210,7 @@ public class EnemyActions : MonoBehaviour
     {
         VillageParanoia.susCaught = true;
         // Do fx here
-        Destroy(this);
+        Destroy(this.gameObject);
     }
     public void MakeLyncher(int villType)
     {
