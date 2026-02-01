@@ -36,11 +36,9 @@ public class EnemyVision : MonoBehaviour
             playerInVision = true;
         }
 
-        if (playerInVision)
+        if (playerInVision && PlayerController.instance.isShadowed)
         {
-            // TODO: todo.
-            // player.suspicion += 1;
-            //Debug.LogWarning("player suspicion increase to implement");
+            PlayerController.instance.suspicion += 5 * Time.fixedDeltaTime;
         }
     }
 }
