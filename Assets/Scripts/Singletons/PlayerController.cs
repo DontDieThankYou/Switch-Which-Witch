@@ -53,10 +53,6 @@ public class PlayerController : MonoBehaviour
     public PlayerInput playerInput;
     public AudioSource talismanRustle;
     public AudioSource talismanPlace;
-    public float nightmareTimer;
-    public float nightmareTime;
-    public AudioSource nightMareSource;
-
     public ParticleSystem ps;
 
     void Awake()
@@ -149,16 +145,6 @@ public class PlayerController : MonoBehaviour
                 }
             }
         }
-        if(nightmareTimer > 0)
-        {
-            nightmareTimer -= Time.fixedDeltaTime;
-            if(nightmareTimer < 0)
-            {
-                AudioManager.instance.PlayAudioSource(true, talismanPlace);
-                isPlacingTalisman = true;
-                talismanPlacementTimer = talismanPlacementTime;
-            }
-        }
     }
     void OnTriggerEnter(Collider other)
     {
@@ -244,7 +230,10 @@ public class PlayerController : MonoBehaviour
                 switch (t)
                 {
                     case InteractableType.House:
-                        nightmareTimer = nightmareTime;
+                    
+                        AudioManager.instance.PlayAudioSource(true, talismanPlace);
+                        isPlacingTalisman = true;
+                        talismanPlacementTimer = talismanPlacementTime;
                         break;
                 }
                 break;
@@ -266,12 +255,6 @@ public class PlayerController : MonoBehaviour
 
     public void InteractCanceled()
     {
-        if(nightmareTimer > 0)
-        {
-            nightmareTimer = -1;
-            AudioManager.instance.PlayAudioSource(true, nightMareSource);
-
-        }
         if(isPlacingTalisman)
         {
             isPlacingTalisman = false;
