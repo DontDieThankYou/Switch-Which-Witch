@@ -19,6 +19,7 @@ public class EnemyActions : MonoBehaviour
     void Start()
     {
         villageNavigation = VillageNavigation.instance;
+        PickNewLocation();
     }
     
     void FixedUpdate()
@@ -38,15 +39,7 @@ public class EnemyActions : MonoBehaviour
                 waitingTimer -= Time.fixedDeltaTime;
                 if (waitingTimer < 0)
                 {
-                    if (currentNavArea == null || Random.Range(0.0f, 1.0f) < 0.2)
-                    {
-                        // 20% chance to move to another area
-                        currentNavArea = villageNavigation.PickWeightedNavArea();
-                    }
-
-                    // create new path
-                    navMeshAgent.destination = villageNavigation.PickLocationFromNavArea(currentNavArea);
-                    waitingTimer = Random.Range(3.0f, 5.0f);
+                    PickNewLocation();
                 }
             }
         } else
@@ -68,5 +61,21 @@ public class EnemyActions : MonoBehaviour
         // villager is hexed and will now kill themselves.
         isHexed = true;
         navMeshAgent.destination = door.transform.position;
+
+        PlayerController.instance.suspicion += PlayerController.instance.hexPoints.suspicion;
+        VillageParanoia.instance.paranoia += PlayerController.instance.hexPoints.paranoia;
+    }
+
+    void PickNewLocation()
+    {
+        if (currentNavArea == null || Random.Range(0.0f, 1.0f) < 0.2)
+        {
+            // 20% chance to move to another area
+            currentNavArea = villageNavigation.PickWeightedNavArea();
+        }
+
+        // create new path
+        navMeshAgent.destination = villageNavigation.PickLocationFromNavArea(currentNavArea);
+        waitingTimer = Random.Range(3.0f, 5.0f);
     }
 }
