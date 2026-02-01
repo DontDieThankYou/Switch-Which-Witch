@@ -2,6 +2,12 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
 
+[System.Serializable] public class ActionPoints
+{
+    public float paranoia;
+    public float suspicion;
+}
+
 [RequireComponent(typeof(PlayerInput))]
 public class PlayerController : MonoBehaviour
 {
@@ -22,6 +28,13 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]public bool isAccusing;
     [HideInInspector]public float talismanPlacementTimer;
     [SerializeField]private Animator animController;
+    [HideInInspector] public float suspicion = 0.0f;
+    [Header("Points")]
+    [SerializeField] public ActionPoints nightmarePoints;
+    [SerializeField] public ActionPoints talismanPoints;
+    [SerializeField] public ActionPoints hexPoints;
+    VillageParanoia villageParanoia;
+
 
     PlayerInput playerInput;
 
@@ -38,37 +51,45 @@ public class PlayerController : MonoBehaviour
         playerInput.actions["Move"].performed += MovePerformed;
         playerInput.actions["Move"].canceled += MoveCanceled;
         playerInput.actions["Interact"].started += InteractStarted;
-        playerInput.actions["Interact"].canceled += InteractCanceled;
+        playerInput.actions["Interact"].canceled += InputInteractCanceled;
         playerInput.actions["Craft"].started += CraftStarted;
-        playerInput.actions["Craft"].canceled += CraftCanceled;
+        playerInput.actions["Craft"].canceled += InputCraftCanceled;
         interactables = new();
+        villageParanoia = VillageParanoia.instance;
     }
 
     void FixedUpdate()
     {
         if(PlayerRoot == null) return;
 
-        if(!isCrafting && !isPlacingTalisman)
+        if (!isAccusing)
         {
-            Vector2 vel = moveDir * moveSpeed;
-            PlayerRoot.linearVelocity = new Vector3(vel.x, 0, vel.y);
-        }
-        if(isPlacingTalisman && hasTalisman)
-        {
-            talismanPlacementTimer -= Time.fixedDeltaTime;
-            if(talismanPlacementTimer <= 0 && currentInteractable.TryGetGameObject(out GameObject g))
+
+            if(!isCrafting && !isPlacingTalisman)
             {
-                House h = g.GetComponent<House>();
-                h.PlaceTalisman();
+                Vector2 vel = moveDir * moveSpeed;
+                PlayerRoot.linearVelocity = new Vector3(vel.x, 0, vel.y);
             }
-        }
-        else if(isCrafting && !hasTalisman)
-        {
-            talismanCraftingTimer -= Time.fixedDeltaTime;
-            if(talismanCraftingTimer <= 0)
+            if(isPlacingTalisman && hasTalisman)
             {
-                hasTalisman = true;
-                isCrafting = false;
+                talismanPlacementTimer -= Time.fixedDeltaTime;
+                if(talismanPlacementTimer <= 0 && currentInteractable.TryGetGameObject(out GameObject g))
+                {
+                    House h = g.GetComponent<House>();
+                    h.PlaceTalisman();
+                    // add points for talisman
+                    suspicion += talismanPoints.suspicion;
+                    villageParanoia.paranoia += talismanPoints.paranoia;
+                }
+            }
+            else if(isCrafting && !hasTalisman)
+            {
+                talismanCraftingTimer -= Time.fixedDeltaTime;
+                if(talismanCraftingTimer <= 0)
+                {
+                    hasTalisman = true;
+                    isCrafting = false;
+                }
             }
         }
     }
@@ -119,20 +140,27 @@ public class PlayerController : MonoBehaviour
             {
                 currentInteractable = interactable;
                 InteractableType t = interactable.Interact();
-                if(t == InteractableType.House)
+                switch (t)
                 {
-                    isPlacingTalisman = true;
-                    talismanPlacementTimer = talismanPlacementTime;
+                    case InteractableType.House:
+                        isPlacingTalisman = true;
+                        talismanPlacementTimer = talismanPlacementTime;
+                        break;
                 }
                 break;
             }
         }
     }
-    private void InteractCanceled(InputAction.CallbackContext ctx)
+    
+    private void InputInteractCanceled(InputAction.CallbackContext ctx)
     {
         float interact = ctx.ReadValue<float>();
         if (interact > 0) return;
-        
+        InteractCanceled();
+    }
+
+    public void InteractCanceled()
+    {
         if(isPlacingTalisman)
         {
             hasTalisman = false;
@@ -149,10 +177,14 @@ public class PlayerController : MonoBehaviour
         isCrafting = true;
         talismanCraftingTimer = talismanCraftingTime;
     }
-    private void CraftCanceled(InputAction.CallbackContext ctx)
+    private void InputCraftCanceled(InputAction.CallbackContext ctx)
     {
         float craft = ctx.ReadValue<float>();
         if(craft > 0 || !isCrafting) return;
+        CraftCanceled();
+    }
+    public void CraftCanceled()
+    {
         isCrafting = false;
     }
     private void Reset()
@@ -166,8 +198,9 @@ public class PlayerController : MonoBehaviour
     {
         playerInput.actions["Move"].performed -= MovePerformed;
         playerInput.actions["Move"].canceled -= MoveCanceled;
-        playerInput.actions["Interact"].started += InteractStarted;
-        playerInput.actions["Craft"].started += CraftStarted;
-        playerInput.actions["Craft"].canceled += CraftCanceled;
+        playerInput.actions["Interact"].started -= InteractStarted;
+        playerInput.actions["Interact"].canceled -= InputInteractCanceled;
+        playerInput.actions["Craft"].started -= CraftStarted;
+        playerInput.actions["Craft"].canceled -= InputCraftCanceled;
     }
 }
