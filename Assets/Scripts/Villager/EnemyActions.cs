@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEditor.Animations;
 using UnityEngine.EventSystems;
 
 public class EnemyActions : MonoBehaviour
