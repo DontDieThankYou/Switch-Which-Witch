@@ -107,6 +107,8 @@ public class HUDController : MonoBehaviour
         });
 
         playerController.isAccusing = false;
+        globalVolume.SetActive(true);
+        accuseVolume.SetActive(false);
     }
     IEnumerator muffleAmbience()
     {

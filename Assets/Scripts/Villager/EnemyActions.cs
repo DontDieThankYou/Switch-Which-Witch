@@ -232,6 +232,8 @@ public class EnemyActions : MonoBehaviour
         normalPathfinding = true;
         navMeshAgent.isStopped = false;
         AudioManager.instance.crowdingSource.Stop();
+        
+        if(VillageParanoia.instance.isLynchingPlayer) GameManager.INSTANCE.BringUpMenu();
     }
     public void BeAccused()
     {

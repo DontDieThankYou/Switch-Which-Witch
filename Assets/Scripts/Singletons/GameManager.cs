@@ -3,6 +3,7 @@ using UnityEngine;
 public class GameManager : MonoBehaviour
 {
     public static GameManager INSTANCE;
+    public GameObject menu;
 
     void Awake()
     {
@@ -12,6 +13,11 @@ public class GameManager : MonoBehaviour
     public void StartGame()
     {
         HUDController.INSTANCE.ToggleHUD(true);
+        PlayerController.instance.Reset();
+    }
+    public void BringUpMenu()
+    {
+        menu.SetActive(true);
     }
 
     // Start is called once before the first execution of Update after the MonoBehaviour is created

@@ -6,6 +6,7 @@ public class VillageParanoia : MonoBehaviour
     public static VillageParanoia instance;
     public static bool susCaught = false;
     public static bool susTied = false;
+    public bool isLynchingPlayer;
     public static List<GameObject> villagers = new();
 
     public float paranoia = 0;
@@ -52,6 +53,11 @@ public class VillageParanoia : MonoBehaviour
             EnemyActions v = g.GetComponent<EnemyActions>();
             v.SkipLynch();
         }
+        if(isLynchingPlayer)
+        {
+            isLynchingPlayer = false;
+            GameManager.INSTANCE.BringUpMenu();
+        }
     }
     public void AttemptAccuse(EnemyActions villager)
     {
@@ -88,6 +94,7 @@ public class VillageParanoia : MonoBehaviour
     {
         susCaught = false;
         susTied = false;
+        isLynchingPlayer = true;
         foreach(GameObject g in villagers)
         {
             if(g.TryGetComponent<EnemyActions>(out EnemyActions v))

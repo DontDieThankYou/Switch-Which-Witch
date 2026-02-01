@@ -297,12 +297,19 @@ public class PlayerController : MonoBehaviour
         isCrafting = false;
         TalismanHUDController.INSTANCE.IsFilling(false);
     }
-    private void Reset()
+    public void Reset()
     {
         isCrafting = false;
         isShadowed = false;
+        hasTalisman = false;
+        suspicion = 0;
+        IsBeingLynched = false;
+        hasLyncher = false;
+        VillageParanoia.instance.paranoia = 0;
+        sp.enabled = true;
         interactables.Clear();
         moveDir = Vector2.zero;
+        Setup();
     }
     private void OnDestroy()
     {

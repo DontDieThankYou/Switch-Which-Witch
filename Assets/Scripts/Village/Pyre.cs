@@ -8,6 +8,7 @@ public class Pyre : MonoBehaviour
     public Sprite[] villagerVariants;
     public AudioClip[] burns;
     public AudioSource audioSource;
+    public ParticleSystem ps;
     bool isBurning;
     
     void Awake()
@@ -25,11 +26,12 @@ public class Pyre : MonoBehaviour
     }
     public void LightPyre()
     {
-        
+        ps.Play();
     }
     public void DismissPyre()
     {
         if (!isBurning) return;
+        ps.Stop();
         isBurning = false;
         int index = Random.Range(0,burns.Count());
         audioSource.clip = burns[index];
