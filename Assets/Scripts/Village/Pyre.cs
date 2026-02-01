@@ -27,15 +27,15 @@ public class Pyre : MonoBehaviour
     public void LightPyre()
     {
         ps.Play();
+        int index = Random.Range(0, burns.Count());
+        audioSource.clip = burns[index];
+        AudioManager.instance.PlayAudioSource(true, audioSource);
     }
     public void DismissPyre()
     {
         if (!isBurning) return;
         ps.Stop();
         isBurning = false;
-        int index = Random.Range(0,burns.Count());
-        audioSource.clip = burns[index];
-        AudioManager.instance.PlayAudioSource(true, audioSource);
         villagerSP.enabled = false;
     }
 }

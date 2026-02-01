@@ -80,6 +80,7 @@ public class HUDController : MonoBehaviour
             {
                 loopSource.Stop();
             }
+
             // turn off accuse 
             // do some bullshit with accuse manager again
 
@@ -88,6 +89,7 @@ public class HUDController : MonoBehaviour
                canClick = true; 
             });
 
+            playerController.isAccusing = false;
             globalVolume.SetActive(true);
             accuseVolume.SetActive(false);
         }

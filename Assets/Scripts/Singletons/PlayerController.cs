@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]public float talismanPlacementTimer;
     [SerializeField]private Animator animController;
     [HideInInspector] public float suspicion = 0.0f;
+    [HideInInspector] public float suspicionDecay;
     [SerializeField] public float suspicionThreshold = 100f;
 
     [Header("Points")]
@@ -96,7 +97,9 @@ public class PlayerController : MonoBehaviour
     void FixedUpdate()
     {
         if(PlayerRoot == null) return;
-        
+
+        //suspicionDecay = Mathf.Clamp((3 * Time.fixedDeltaTime), 0f, 100f);
+        //IncrementSus(suspicionDecay * -1);
         suspicion = Mathf.Clamp(suspicion - (3 * Time.fixedDeltaTime), 0f, 100f);
          
 
