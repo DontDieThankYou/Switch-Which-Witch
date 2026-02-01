@@ -794,6 +794,11 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 4045264454202523868, guid: 73d029ce7bfa7426d92ceff6a548b515, type: 3}
   m_PrefabInstance: {fileID: 542222522}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &74234261 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8963947861079186887, guid: c4f020f9e80a0404b8118580d41ce5f9, type: 3}
+  m_PrefabInstance: {fileID: 1141076458}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &75277665 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4045264454202523868, guid: 73d029ce7bfa7426d92ceff6a548b515, type: 3}
@@ -24299,7 +24304,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e561a868e17cc9042986cbefd6042c5f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::GameManager
-  menu: {fileID: 0}
+  menu: {fileID: 74234261}
 --- !u!224 &2128613872
 RectTransform:
   m_ObjectHideFlags: 0

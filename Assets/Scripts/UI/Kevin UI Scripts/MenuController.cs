@@ -5,8 +5,8 @@ using UnityEngine;
 
 public class MenuController : MonoBehaviour
 {
-    [SerializeField] private CanvasGroup background;
-    [SerializeField] private CanvasGroup content;
+    [SerializeField] public CanvasGroup background;
+    [SerializeField] public CanvasGroup content;
     
 
     void Awake()

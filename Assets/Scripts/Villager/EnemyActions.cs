@@ -232,8 +232,15 @@ public class EnemyActions : MonoBehaviour
         normalPathfinding = true;
         navMeshAgent.isStopped = false;
         AudioManager.instance.crowdingSource.Stop();
+
+        foreach(EnemyActions g in villagers)
+        {
+            Destroy(g.gameObject);
+        }
+        villagers.Clear();
         
-        if(VillageParanoia.instance.isLynchingPlayer) GameManager.INSTANCE.BringUpMenu();
+        if(PlayerController.instance.IsBeingLynched) GameManager.INSTANCE.BringUpMenu();
+        Debug.Log(PlayerController.instance.IsBeingLynched);
     }
     public void BeAccused()
     {
