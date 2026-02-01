@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour
     public SpriteRenderer sp;
     public bool hasLyncher;
 
-    PlayerInput playerInput;
+    public PlayerInput playerInput;
 
     void Awake()
     {
