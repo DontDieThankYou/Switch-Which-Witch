@@ -2,7 +2,6 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
-using UnityEditor.Animations;
 using UnityEngine.EventSystems;
 
 public class EnemyActions : MonoBehaviour
@@ -31,6 +30,7 @@ public class EnemyActions : MonoBehaviour
     [SerializeField] Animator animController;
     public static bool isCrowding;
     public Coroutine lynchCoroutine;
+    public ParticleSystem hexps;
 
     void Awake()
     {
@@ -42,7 +42,6 @@ public class EnemyActions : MonoBehaviour
     {
         villageNavigation = VillageNavigation.instance;
         villageParanoia = VillageParanoia.instance;
-        PickNewLocation();
     }
 
     void Update()
@@ -104,6 +103,7 @@ public class EnemyActions : MonoBehaviour
                 if (!pathing)
                 {
                     // got to a house.
+                    Debug.Log(navMeshAgent.hasPath);
                     Destroy(this.gameObject);
                 }
             }
@@ -123,6 +123,7 @@ public class EnemyActions : MonoBehaviour
     public void Hex()
     {
         // villager is hexed and will now kill themselves.
+        hexps?.Play();
         isHexed = true;
         normalPathfinding = false;
         int index = Random.Range(0, House.doors.Count);
@@ -171,7 +172,6 @@ public class EnemyActions : MonoBehaviour
         normalPathfinding = true;
         navMeshAgent.isStopped = false;
         AudioManager.instance.crowdingSource.Stop();
-        PickNewLocation();
     }
     IEnumerator Lynch(Vector3 position)
     {
@@ -245,12 +245,13 @@ public class EnemyActions : MonoBehaviour
             villagers[0].MakeLyncher(villType);
             VillageParanoia.instance.SetSusCaught(true);
             // Do fx here
+            Debug.Log("accused!!");
             Destroy(this.gameObject);
         }
     }
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("TriggerEnter: " + other.name);
+        // Debug.Log("TriggerEnter: " + other.name);
         if(other.transform.parent != null
             && other.transform.parent.TryGetComponent<EnemyActions>(out EnemyActions o))
         {
@@ -260,7 +261,7 @@ public class EnemyActions : MonoBehaviour
                 CatchSus();
             }
             villagers.Add(o);
-                Debug.Log(other.name);
+                // Debug.Log(other.name);
         }
     }
     

@@ -1,11 +1,12 @@
 using System.Collections.Generic;
-using UnityEditor.Animations;
 using UnityEngine;
+
+
 
 public class VillagerSpawner : MonoBehaviour
 {
     [SerializeField] int maxVillagers = 20;
-    [SerializeField] List<AnimatorController> villtypes;
+    [SerializeField] List<RuntimeAnimatorController> villtypes;
     [SerializeField] List<Sprite> villsprites;
     [SerializeField] GameObject villPrefab;
     float timer = 0.0f;
