@@ -100,14 +100,14 @@ Material:
         m_Offset: {x: 0, y: 0}
     m_Ints: []
     m_Floats:
-    - _Angle: 100
+    - _Angle: 80
     - _BUILTIN_QueueControl: 0
     - _BUILTIN_QueueOffset: 0
     - _BumpScale: 1
     - _Cutoff: 0.5
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EdgeFadeAngle: 180
+    - _EdgeFadeAngle: 40
     - _GlossMapScale: 1
     - _Glossiness: 0.5
     - _GlossyReflections: 1
