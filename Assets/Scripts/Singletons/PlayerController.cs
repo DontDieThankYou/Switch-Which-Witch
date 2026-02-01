@@ -16,9 +16,10 @@ public class PlayerController : MonoBehaviour
     IInteractable currentInteractable;
     [HideInInspector]public bool isShadowed;
     [HideInInspector]public bool isCrafting;
-    [HideInInspector]public bool hasTalisman;
-    [HideInInspector]public float talismanCraftingTimer;
-    [HideInInspector]public float talismanPlacementTimers;
+    [HideInInspector]public bool isPlacingTalisman;
+    public bool hasTalisman = true;
+    public float talismanCraftingTimer;
+    [HideInInspector]public float talismanPlacementTimer;
 
     PlayerInput playerInput;
 
@@ -45,10 +46,28 @@ public class PlayerController : MonoBehaviour
     {
         if(PlayerRoot == null) return;
 
-        if(!isCrafting)
+        if(!isCrafting && !isPlacingTalisman)
         {
             Vector2 vel = moveDir * moveSpeed;
             PlayerRoot.linearVelocity = new Vector3(vel.x, 0, vel.y);
+        }
+        if(isPlacingTalisman && hasTalisman)
+        {
+            talismanPlacementTimer -= Time.fixedDeltaTime;
+            if(talismanPlacementTimer <= 0 && currentInteractable.TryGetGameObject(out GameObject g))
+            {
+                House h = g.GetComponent<House>();
+                h.PlaceTalisman();
+            }
+        }
+        else if(isCrafting && !hasTalisman)
+        {
+            talismanCraftingTimer -= Time.fixedDeltaTime;
+            if(talismanCraftingTimer <= 0)
+            {
+                hasTalisman = true;
+                isCrafting = false;
+            }
         }
     }
     void OnTriggerEnter(Collider other)
@@ -70,14 +89,19 @@ public class PlayerController : MonoBehaviour
     private void InteractStarted(InputAction.CallbackContext ctx)
     {
         float interact = ctx.ReadValue<float>();
-        if (interact < 0) return;
+        if (interact < 0 || isPlacingTalisman || isCrafting) return;
 
         foreach(IInteractable interactable in interactables)
         {
             if(interactable.IsInteractable())
             {
                 currentInteractable = interactable;
-                interactable.Interact();
+                InteractableType t = interactable.Interact();
+                if(t == InteractableType.House)
+                {
+                    isPlacingTalisman = true;
+                    talismanPlacementTimer = talismanPlacementTime;
+                }
                 break;
             }
         }
@@ -86,17 +110,27 @@ public class PlayerController : MonoBehaviour
     {
         float interact = ctx.ReadValue<float>();
         if (interact > 0) return;
+        
+        if(isPlacingTalisman)
+        {
+            hasTalisman = false;
+            isPlacingTalisman = false;
+        }
+
         currentInteractable?.CancelInteract();
         currentInteractable = null;
     }
     private void CraftStarted(InputAction.CallbackContext ctx)
     {
-        if(isCrafting) return;
+        float craft = ctx.ReadValue<float>();
+        if(craft < 0 || isCrafting || hasTalisman || isPlacingTalisman) return;
         isCrafting = true;
+        talismanCraftingTimer = talismanCraftingTime;
     }
     private void CraftCanceled(InputAction.CallbackContext ctx)
     {
-        if(!isCrafting) return;
+        float craft = ctx.ReadValue<float>();
+        if(craft > 0 || !isCrafting) return;
         isCrafting = false;
     }
     private void Reset()
