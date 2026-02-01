@@ -20,10 +20,12 @@ public class EnemyActions : MonoBehaviour
     bool isMoving = true;
     bool isAccused = false;
     bool susCaught = false;
+    public float pyreDetectDist = 10f;
     List<EnemyActions> villagers;
     public bool isLyncher = false;
     public int lynchedType = 0;
     public int villType = 0;
+    bool isTouchingPyre;
 
     void Awake()
     {
@@ -71,6 +73,16 @@ public class EnemyActions : MonoBehaviour
                 }
             }
         }
+
+        if((transform.position - Pyre.instance.transform.position).magnitude < pyreDetectDist)
+        {
+            isTouchingPyre = true;
+            if(isLyncher) Pyre.instance.TiePyre(lynchedType);
+        }
+        else
+        {
+            isTouchingPyre = false;
+        }
     }
 
     public void Hex()
@@ -105,6 +117,7 @@ public class EnemyActions : MonoBehaviour
 
     IEnumerator Lynch(Vector3 position)
     {
+        isMoving = false;
         Vector3 pyreLocation = new Vector3(1, 0, -6);
         normalPathfinding = false;
 
@@ -112,7 +125,6 @@ public class EnemyActions : MonoBehaviour
 
         // set no destination
         navMeshAgent.isStopped = true;
-        yield return new WaitForSeconds(1.5f); // pause!
 
         // path to position for duration
         navMeshAgent.destination = position;
@@ -121,19 +133,13 @@ public class EnemyActions : MonoBehaviour
         {
             yield return null;
         }
-        yield return new WaitForSeconds(2f); // become mob
-
-        navMeshAgent.isStopped = true;
-        yield return new WaitForSeconds(1.0f); // pause!
 
         // then walk towards offset position in town center
         navMeshAgent.destination = pyreLocation;
-        navMeshAgent.isStopped = false;
         while(!VillageParanoia.susTied)
         {
             yield return null;
         }
-
         // spawn pyre here
 
         // then go to circle position, relative velocity (static duration)
@@ -154,7 +160,7 @@ public class EnemyActions : MonoBehaviour
         yield return new WaitForSeconds(5.0f); // BURNNNNNNNNNNNNNNNNNN
 
         Pyre.instance.DismissPyre();
-
+        normalPathfinding = true;
         // then resume normal pathfinding
         navMeshAgent.speed = 10.0f;
         normalPathfinding = true;
@@ -185,13 +191,6 @@ public class EnemyActions : MonoBehaviour
             }
             villagers.Add(o);
         }
-        
-        if(other.CompareTag("Pyre") && isLyncher)
-        {
-            //Do VFX
-
-            Pyre.instance.TiePyre(lynchedType);
-        }
     }
     
     public void OnTriggerExit(Collider other)
@@ -215,6 +214,7 @@ public class EnemyActions : MonoBehaviour
     public void MakeLyncher(int villType)
     {
         isLyncher = true;
+        if(isTouchingPyre) Pyre.instance.TiePyre(lynchedType);
         lynchedType = villType;
     }
 }

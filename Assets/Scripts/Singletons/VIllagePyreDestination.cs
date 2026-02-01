@@ -4,7 +4,7 @@ using UnityEngine;
 
 public static class VillagePyreDestination
 {
-    private static int initVillPerCircle = 10;
+    private static int initVillPerCircle = 5;
     private static float villPerCircleMult = 1.5f;
     private static float initialRad = 5.5f;
     private static float incrementRad = 1.5f;

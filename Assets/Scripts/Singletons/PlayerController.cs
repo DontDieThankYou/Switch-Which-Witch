@@ -138,12 +138,6 @@ public class PlayerController : MonoBehaviour
                 GotLynched(o);
             }
             else villagers.Add(other.transform.parent.GetComponent<EnemyActions>());
-        } 
-        if (other.CompareTag("Pyre"))
-        {
-            //Do VFX
-
-            Pyre.instance.TiePyre(0);
         }
     }
     private void GotLynched(EnemyActions v)
@@ -279,7 +273,7 @@ public class PlayerController : MonoBehaviour
     public void IncrementSus(float newSus)
     {
         suspicion += newSus;
-        if(newSus >= suspicionThreshold)
+        if(suspicion >= suspicionThreshold)
         {
             Cleanup();
             moveDir = Vector2.zero;
