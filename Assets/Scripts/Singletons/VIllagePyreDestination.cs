@@ -2,7 +2,7 @@ using System;
 using TMPro;
 using UnityEngine;
 
-public class VillagePyreDestination : MonoBehaviour
+public static class VillagePyreDestination
 {
     private static int initVillPerCircle = 10;
     private static float villPerCircleMult = 1.5f;
@@ -11,16 +11,16 @@ public class VillagePyreDestination : MonoBehaviour
     private static int curCircleCount = 0;
     private static int curCircleNum = 0;
     private static float prevCircleAngle = 0;
-    [SerializeField] GameObject Villager;
+    // [SerializeField] GameObject Villager;
     [SerializeField] static Vector3 PyrePosition = new Vector3(0,0,-3.2f);
 
-    void Start()
-    {
-        for(int i = 0; i < 100; i++)
-        {
-            Instantiate(Villager, GetNextPosition(), Villager.transform.localRotation);
-        }
-    }
+    // void Start()
+    // {
+    //     for(int i = 0; i < 100; i++)
+    //     {
+    //         Instantiate(Villager, GetNextPosition(), Villager.transform.localRotation);
+    //     }
+    // }
     public static void Reset()
     {
         curCircleCount = 0;
