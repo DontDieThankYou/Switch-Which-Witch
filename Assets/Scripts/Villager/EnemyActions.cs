@@ -2,6 +2,8 @@ using System.Collections.Generic;
 using System.Collections;
 using UnityEngine;
 using UnityEngine.AI;
+using UnityEditor.Animations;
+using UnityEngine.EventSystems;
 
 public class EnemyActions : MonoBehaviour
 {
@@ -26,6 +28,7 @@ public class EnemyActions : MonoBehaviour
     public int lynchedType = 0;
     public int villType = 0;
     bool isTouchingPyre;
+    [SerializeField] Animator animController;
 
     void Awake()
     {
@@ -38,6 +41,36 @@ public class EnemyActions : MonoBehaviour
         villageNavigation = VillageNavigation.instance;
         villageParanoia = VillageParanoia.instance;
         PickNewLocation();
+    }
+
+    void Update()
+    {
+        if (navMeshAgent.velocity.sqrMagnitude <= 0)
+        {
+            animController.SetBool("isMoving", false); 
+            animController.SetInteger("direction", 0);
+        } else
+        {
+            animController.SetBool("isMoving", true); 
+            Vector2 moveDir = DimensionConverter.XYZtoXZ(navMeshAgent.velocity);
+            
+            if (moveDir.x < 0) // Left
+            {
+                animController.SetInteger("direction", 3);
+            }
+            else if (moveDir.x > 0) // Right
+            {
+                animController.SetInteger("direction", 4);
+            }
+            else if (moveDir.y < 0) // Down
+            {
+                animController.SetInteger("direction", 1);
+            }
+            else if (moveDir.y > 0) // Up
+            {
+                animController.SetInteger("direction", 2);
+            }
+        }
     }
     
     void FixedUpdate()
@@ -91,7 +124,6 @@ public class EnemyActions : MonoBehaviour
         isHexed = true;
         normalPathfinding = false;
         int index = Random.Range(0, House.doors.Count);
-        Debug.Log(index + " : " + House.doors.Count);
         navMeshAgent.destination = House.doors[index];
 
         PlayerController.instance.IncrementSus(PlayerController.instance.hexPoints.suspicion);

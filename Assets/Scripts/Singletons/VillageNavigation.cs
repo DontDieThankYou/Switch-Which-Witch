@@ -50,7 +50,7 @@ public class VillageNavigation : MonoBehaviour
         // chooses a location from within the radius
         // this strategy weighs spots near the center higher
 
-        float distance = Random.Range(0, navArea.radius);
+        float distance = Mathf.Sqrt(Random.Range(0, navArea.radius * navArea.radius));
         Vector3 direction = Random.rotation.eulerAngles;
         direction.y = 0;
         return navArea.position + direction.normalized * distance;
