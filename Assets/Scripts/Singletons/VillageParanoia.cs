@@ -62,7 +62,7 @@ public class VillageParanoia : MonoBehaviour
     public void AttemptAccuse(EnemyActions villager)
     {
         VillagePyreDestination.Reset();
-        if (true || paranoia > accusationThreshold)
+        if (paranoia > accusationThreshold)
         {
             susCaught = false;
             susTied = false;
