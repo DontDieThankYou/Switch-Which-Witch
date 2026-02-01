@@ -1,22 +1,9 @@
-using System.ComponentModel;
 using UnityEngine;
-using UnityEngine.UIElements.Experimental;
+using UnityEngine.InputSystem;
 
-public class Accuse
+public class Accuse : MonoBehaviour
 {
     [SerializeField] GameObject accuseVolume;
-    public static Accuse instance;
-    public static Accuse Instance
-    {
-        get
-        {
-            if (instance == null)
-            {
-                instance = new();
-            }
-            return instance;
-        }
-    }
 
     private PlayerController playerController;
 
@@ -33,7 +20,7 @@ public class Accuse
                 playerController.CraftCanceled();
             }
             playerController.InteractCanceled();
-            
+
             playerController.isAccusing = true;
             accuseVolume.SetActive(true);
         }

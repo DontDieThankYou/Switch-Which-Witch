@@ -132,7 +132,12 @@ public class PlayerController : MonoBehaviour
     private void InteractStarted(InputAction.CallbackContext ctx)
     {
         float interact = ctx.ReadValue<float>();
-        if (interact < 0 || isPlacingTalisman || isCrafting) return;
+        if (interact < 0)
+        {
+            return;
+        } else if (isPlacingTalisman || isCrafting) {
+            return;
+        }
 
         foreach(IInteractable interactable in interactables)
         {
@@ -150,6 +155,11 @@ public class PlayerController : MonoBehaviour
                 break;
             }
         }
+    }
+
+    private void timeInteractClick()
+    {
+        
     }
     
     private void InputInteractCanceled(InputAction.CallbackContext ctx)

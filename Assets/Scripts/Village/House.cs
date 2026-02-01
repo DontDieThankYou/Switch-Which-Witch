@@ -3,6 +3,7 @@ using UnityEngine;
 public class House : MonoBehaviour, IInteractable
 {
     public bool hasTalisman;
+    public bool isLightsOn = true;
     [SerializeField] public SpriteRenderer talisman;
     void Awake()
     {
@@ -16,7 +17,7 @@ public class House : MonoBehaviour, IInteractable
 
     public bool IsInteractable()
     {
-        return PlayerController.instance.hasTalisman && !hasTalisman;
+        return (PlayerController.instance.hasTalisman && !hasTalisman) || !isLightsOn;
     }
     public void RemoveTalisman()
     {
