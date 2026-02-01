@@ -45,7 +45,9 @@ public class MouseHover : MonoBehaviour
 
     public void OnPointerUp(InputAction.CallbackContext ctx)
     {
-        Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
+        if (ctx.ReadValue<float>() <= 0)
+        {
+            Ray ray = Camera.main.ScreenPointToRay(Mouse.current.position.ReadValue());
         if(Physics.Raycast(ray, out RaycastHit hitInfo, float.MaxValue, villagerLayer)
             && hitInfo.transform.TryGetComponent<Outline>(out Outline outline)
             && hitInfo.transform.parent != null
@@ -64,9 +66,10 @@ public class MouseHover : MonoBehaviour
                 actions.Hex();
             }
         }
+        }
     }
     void OnDestroy()
     {
-        input.actions["Click"].canceled -= OnPointerUp;
+        input.actions["Click"].performed -= OnPointerUp;
     }
 }
