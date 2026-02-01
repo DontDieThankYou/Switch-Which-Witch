@@ -26,7 +26,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]public bool isShadowed;
     [HideInInspector]public bool isCrafting;
     [HideInInspector]public bool isPlacingTalisman;
-    [HideInInspector] public bool hasTalisman = true;
+    public bool hasTalisman = true;
     [HideInInspector] public float talismanCraftingTimer;
     [HideInInspector]public bool isAccusing;
     [HideInInspector]public float talismanPlacementTimer;
@@ -104,6 +104,8 @@ public class PlayerController : MonoBehaviour
                 {
                     House h = g.GetComponent<House>();
                     h.PlaceTalisman();
+                    TalismanHUDController.INSTANCE.Interact();
+
                     // add points for talisman
                     suspicion += talismanPoints.suspicion;
                     villageParanoia.paranoia += talismanPoints.paranoia;
@@ -157,7 +159,8 @@ public class PlayerController : MonoBehaviour
             interactables.Remove(interactable);
             exitInteractable?.Invoke(interactable);  
         } 
-        if(other.CompareTag("Villager"))
+        if(other.transform.parent != null
+            && other.transform.parent.TryGetComponent<EnemyActions>(out EnemyActions o))
         {
             villagers.Remove(other.transform.parent.GetComponent<EnemyActions>());
         } 
@@ -234,7 +237,6 @@ public class PlayerController : MonoBehaviour
     {
         if(isPlacingTalisman)
         {
-            hasTalisman = false;
             isPlacingTalisman = false;
         }
 

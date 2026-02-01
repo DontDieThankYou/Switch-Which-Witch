@@ -69,6 +69,8 @@ public class TalismanHUDController : MonoBehaviour
 
     public void Interact()
     {
+        Debug.Log("Interact!");
+        IsFilling(false);
         isFilled = false;
         slider.value = 0f;
     }
