@@ -148,12 +148,14 @@ public class PlayerController : MonoBehaviour
         if(craft < 0 || isCrafting || hasTalisman || isPlacingTalisman) return;
         isCrafting = true;
         talismanCraftingTimer = talismanCraftingTime;
+        TalismanHUDController.INSTANCE.IsFilling(true);
     }
     private void CraftCanceled(InputAction.CallbackContext ctx)
     {
         float craft = ctx.ReadValue<float>();
         if(craft > 0 || !isCrafting) return;
         isCrafting = false;
+        TalismanHUDController.INSTANCE.IsFilling(false);
     }
     private void Reset()
     {
@@ -170,4 +172,6 @@ public class PlayerController : MonoBehaviour
         playerInput.actions["Craft"].started += CraftStarted;
         playerInput.actions["Craft"].canceled += CraftCanceled;
     }
+
+    public float TalismanPlacementTime => talismanCraftingTime;
 }
