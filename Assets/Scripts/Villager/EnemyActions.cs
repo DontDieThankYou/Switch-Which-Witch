@@ -105,6 +105,7 @@ public class EnemyActions : MonoBehaviour
                 if (!pathing)
                 {
                     // got to a house.
+                    Debug.Log(navMeshAgent.hasPath);
                     Destroy(this.gameObject);
                 }
             }
@@ -247,12 +248,13 @@ public class EnemyActions : MonoBehaviour
             villagers[0].MakeLyncher(villType);
             VillageParanoia.instance.SetSusCaught(true);
             // Do fx here
+            Debug.Log("accused!!");
             Destroy(this.gameObject);
         }
     }
     public void OnTriggerEnter(Collider other)
     {
-        Debug.Log("TriggerEnter: " + other.name);
+        // Debug.Log("TriggerEnter: " + other.name);
         if(other.transform.parent != null
             && other.transform.parent.TryGetComponent<EnemyActions>(out EnemyActions o))
         {
@@ -262,7 +264,7 @@ public class EnemyActions : MonoBehaviour
                 CatchSus();
             }
             villagers.Add(o);
-                Debug.Log(other.name);
+                // Debug.Log(other.name);
         }
     }
     
