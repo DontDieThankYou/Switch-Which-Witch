@@ -1,4 +1,3 @@
-using System;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -60,9 +59,5 @@ public class VillageParanoia : MonoBehaviour
                 v.LynchAt(PlayerController.instance.transform.position);
             }
         }
-    }
-    public void WalkToStake()
-    {
-        
     }
 }
