@@ -31,6 +31,7 @@ public class EnemyActions : MonoBehaviour
     [SerializeField] Animator animController;
     public static bool isCrowding;
     public Coroutine lynchCoroutine;
+    public ParticleSystem hexps;
 
     void Awake()
     {
@@ -123,6 +124,7 @@ public class EnemyActions : MonoBehaviour
     public void Hex()
     {
         // villager is hexed and will now kill themselves.
+        hexps?.Play();
         isHexed = true;
         normalPathfinding = false;
         int index = Random.Range(0, House.doors.Count);
