@@ -20,7 +20,6 @@ public class EnemyActions : MonoBehaviour
     NavArea currentNavArea = null;
     bool isMoving = true;
     public bool isAccused = false;
-    bool susCaught = false;
     public float pyreDetectDist = 10f;
     List<EnemyActions> villagers;
     public bool isLyncher = false;
@@ -135,6 +134,7 @@ public class EnemyActions : MonoBehaviour
 
     void PickNewLocation()
     {
+        Debug.Log("picked new location");
         if (currentNavArea == null || Random.Range(0.0f, 1.0f) < 0.2)
         {
             // 20% chance to move to another area
@@ -163,7 +163,7 @@ public class EnemyActions : MonoBehaviour
             lynchCoroutine = null;
         }
         isAccused = false;
-        susCaught = false;
+        VillageParanoia.instance.SetSusCaught(false);
         isLyncher = false;
         Pyre.instance.DismissPyre();
         normalPathfinding = true;
@@ -188,33 +188,40 @@ public class EnemyActions : MonoBehaviour
         navMeshAgent.destination = position;
         navMeshAgent.isStopped = false;
         VillageParanoia.instance.resetTimerTime();
-        while(!VillageParanoia.susCaught)
+        Debug.Log("lynching");
+        float time = 0.0f;
+        while(!VillageParanoia.susCaught || time > 5.0f)
         {
-            yield return null;
+            yield return new WaitForEndOfFrame();
+            time += Time.deltaTime;
         }
         AudioManager.instance.PlayAudioSource(true, AudioManager.instance.crowdingSource);
         // then walk towards offset position in town center
         navMeshAgent.destination = pyreLocation;
         
         VillageParanoia.instance.resetTimerTime();
-        while(!VillageParanoia.susTied)
-        {
-            yield return null;
-        }
+        yield return new WaitUntil(() => VillageParanoia.susTied);
         // spawn pyre here
 
         // then go to circle position, relative velocity (static duration)
-        navMeshAgent.isStopped = true;
+        // navMeshAgent.isStopped = true;
         Vector3 targetPosition = VillagePyreDestination.GetNextPosition();
         Vector3 startPosition = this.transform.position;
+        Debug.Log("circling");
 
+        navMeshAgent.isStopped = false;
+        navMeshAgent.destination = targetPosition;
         int maxFrames = 180;
         for (int i = 0; i < maxFrames; ++i)
         {
+            navMeshAgent.Warp(Vector3.Lerp(startPosition, targetPosition, i / maxFrames));
             this.transform.position = Vector3.Lerp(startPosition, targetPosition, i / maxFrames);
-            yield return new WaitForFixedUpdate();
+            Debug.Log(Vector3.Lerp(startPosition, targetPosition, i / maxFrames));
+            yield return new WaitForEndOfFrame();
         }
+        Debug.Log("circled");
         // light pyre here
+        navMeshAgent.isStopped = true;
         Pyre.instance.LightPyre();
         // burn
         float timer = 0;
@@ -222,15 +229,17 @@ public class EnemyActions : MonoBehaviour
         while(timer < 5f)
         {
             timer += Time.deltaTime;
-            yield return null;
+            yield return new WaitForEndOfFrame();
             AudioManager.instance.crowdingSource.volume = Mathf.Lerp(initVolume, 0, timer/5f);
         }// BURNNNNNNNNNNNNNNNNNN
+        Debug.Log("burned");
         Pyre.instance.DismissPyre();
         normalPathfinding = true;
         // then resume normal pathfinding
         navMeshAgent.speed = 10.0f;
         normalPathfinding = true;
         navMeshAgent.isStopped = false;
+        PickNewLocation();
         AudioManager.instance.crowdingSource.Stop();
 
         foreach(EnemyActions g in villagers)
