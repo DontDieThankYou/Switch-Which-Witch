@@ -99,26 +99,11 @@ public class PlayerController : MonoBehaviour
     {
         if(PlayerRoot == null) return;
 
-        /* AG suspicionDecay = Mathf.Clamp((3 * Time.fixedDeltaTime), 0f, 100f);
-        suspicionDecay = suspicionDecayPerSecond * -1 * Time.fixedDeltaTime;
-        Debug.Log("decay decr " + suspicionDecay);
-
-        IncrementSus(suspicionDecay);
-        */
-
-
         suspicionDecay = suspicionDecayPerSecond * Time.fixedDeltaTime;
         if((suspicion - suspicionDecay) > 0f)
         {
             IncrementSus(suspicionDecay * -1);
-            Debug.Log("sus "+suspicion);
         }
-
-            //AG StartCoroutine(ScalePS(suspicion));
-
-            //suspicion = Mathf.Clamp(suspicion - (3 * Time.fixedDeltaTime), 0f, 100f); // AG This is working as intended
-
-
 
             PlayerRoot.linearVelocity = Vector3.zero;
         // moving
@@ -332,7 +317,6 @@ public class PlayerController : MonoBehaviour
     {
         suspicion += newSus;
         float scaling = 1 + newSus/100;
-        Debug.Log("scaling by " + scaling);
         
         ps.transform.localScale = ps.transform.localScale * scaling;
         // AG StartCoroutine(ScalePS(scaling));
