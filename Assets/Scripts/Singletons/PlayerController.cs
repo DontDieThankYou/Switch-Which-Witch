@@ -36,6 +36,7 @@ public class PlayerController : MonoBehaviour
     [HideInInspector]public float talismanPlacementTimer;
     [SerializeField]private Animator animController;
     [HideInInspector] public float suspicion = 0.0f;
+    [SerializeField] public float suspicionDecayPerSecond = 3.0f;
     [HideInInspector] public float suspicionDecay;
     [SerializeField] public float suspicionThreshold = 100f;
 
@@ -98,12 +99,28 @@ public class PlayerController : MonoBehaviour
     {
         if(PlayerRoot == null) return;
 
-        //suspicionDecay = Mathf.Clamp((3 * Time.fixedDeltaTime), 0f, 100f);
-        //IncrementSus(suspicionDecay * -1);
-        suspicion = Mathf.Clamp(suspicion - (3 * Time.fixedDeltaTime), 0f, 100f);
-         
+        /* AG suspicionDecay = Mathf.Clamp((3 * Time.fixedDeltaTime), 0f, 100f);
+        suspicionDecay = suspicionDecayPerSecond * -1 * Time.fixedDeltaTime;
+        Debug.Log("decay decr " + suspicionDecay);
 
-        PlayerRoot.linearVelocity = Vector3.zero;
+        IncrementSus(suspicionDecay);
+        */
+
+
+        suspicionDecay = suspicionDecayPerSecond * Time.fixedDeltaTime;
+        if((suspicion - suspicionDecay) > 0f)
+        {
+            IncrementSus(suspicionDecay * -1);
+            Debug.Log("sus "+suspicion);
+        }
+
+            //AG StartCoroutine(ScalePS(suspicion));
+
+            //suspicion = Mathf.Clamp(suspicion - (3 * Time.fixedDeltaTime), 0f, 100f); // AG This is working as intended
+
+
+
+            PlayerRoot.linearVelocity = Vector3.zero;
         // moving
         if(!isCrafting && !isPlacingTalisman)
         {
@@ -315,10 +332,12 @@ public class PlayerController : MonoBehaviour
     {
         suspicion += newSus;
         float scaling = 1 + newSus/100;
+        Debug.Log("scaling by " + scaling);
+        
+        ps.transform.localScale = ps.transform.localScale * scaling;
+        // AG StartCoroutine(ScalePS(scaling));
 
-        StartCoroutine(ScalePS(scaling));
-
-        if(suspicion >= suspicionThreshold)
+        if (suspicion >= suspicionThreshold)
         {
             Cleanup();
             moveDir = Vector2.zero;
@@ -335,7 +354,7 @@ public class PlayerController : MonoBehaviour
     {
         Vector3 startScale = ps.transform.localScale;
         Vector3 endScale = startScale*scale; // Uniform scaling
-        float duration = 5;
+        float duration = 1f;
         float elapsed = 0f;
 
         while (elapsed < duration)
