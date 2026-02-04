@@ -122,14 +122,17 @@ public class EnemyActions : MonoBehaviour
     public void Hex()
     {
         // villager is hexed and will now kill themselves.
-        hexps?.Play();
-        isHexed = true;
-        normalPathfinding = false;
-        int index = Random.Range(0, House.doors.Count);
-        navMeshAgent.destination = House.doors[index];
+        if (!isHexed)
+        {
+            hexps?.Play();
+            isHexed = true;
+            normalPathfinding = false;
+            int index = Random.Range(0, House.doors.Count);
+            navMeshAgent.destination = House.doors[index];
 
-        PlayerController.instance.IncrementSus(PlayerController.instance.hexPoints.suspicion);
-        VillageParanoia.instance.paranoia += PlayerController.instance.hexPoints.paranoia;
+            PlayerController.instance.IncrementSus(PlayerController.instance.hexPoints.suspicion);
+            VillageParanoia.instance.paranoia += PlayerController.instance.hexPoints.paranoia;
+        }
     }
 
     void PickNewLocation()
@@ -190,7 +193,7 @@ public class EnemyActions : MonoBehaviour
         VillageParanoia.instance.resetTimerTime();
         Debug.Log("lynching");
         float time = 0.0f;
-        while(!VillageParanoia.susCaught || time > 5.0f)
+        while(!VillageParanoia.susCaught || time < 5.0f)
         {
             yield return new WaitForEndOfFrame();
             time += Time.deltaTime;
@@ -207,6 +210,7 @@ public class EnemyActions : MonoBehaviour
         // navMeshAgent.isStopped = true;
         Vector3 targetPosition = VillagePyreDestination.GetNextPosition();
         Vector3 startPosition = this.transform.position;
+        Vector3 velocity = (targetPosition - startPosition).normalized;
         Debug.Log("circling");
 
         navMeshAgent.isStopped = false;
@@ -214,9 +218,10 @@ public class EnemyActions : MonoBehaviour
         int maxFrames = 180;
         for (int i = 0; i < maxFrames; ++i)
         {
-            navMeshAgent.Warp(Vector3.Lerp(startPosition, targetPosition, i / maxFrames));
-            this.transform.position = Vector3.Lerp(startPosition, targetPosition, i / maxFrames);
-            Debug.Log(Vector3.Lerp(startPosition, targetPosition, i / maxFrames));
+            float lerpPos = (float) i / (float) maxFrames;
+            navMeshAgent.Warp(Vector3.Lerp(startPosition, targetPosition, lerpPos));
+            navMeshAgent.velocity = velocity;
+            // Debug.Log(string.Format("navmeshagent pos {0} {1} {2}", startPosition, targetPosition, Vector3.Lerp(startPosition, targetPosition, lerpPos)));
             yield return new WaitForEndOfFrame();
         }
         Debug.Log("circled");

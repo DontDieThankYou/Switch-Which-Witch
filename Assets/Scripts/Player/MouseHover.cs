@@ -65,6 +65,7 @@ public class MouseHover : MonoBehaviour
             {
                 outline.Activate(Color.red);
                 VillageParanoia.instance.AttemptAccuse(actions);
+                Debug.Log("WIIIIIIIITCH");
                 //HUDController.INSTANCE.CancelAccuse();
 
                 int index = UnityEngine.Random.Range(0,accuse.Count());
