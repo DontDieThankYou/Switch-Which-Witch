@@ -18916,11 +18916,6 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2099d2469df55314baf5de1291150879, type: 3}
---- !u!1 &1715306957 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 8963947861079186887, guid: c4f020f9e80a0404b8118580d41ce5f9, type: 3}
-  m_PrefabInstance: {fileID: 1141076458}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1715977788
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -23552,6 +23547,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2073168867}
   - component: {fileID: 2073168866}
+  - component: {fileID: 2073168868}
   m_Layer: 0
   m_Name: HusseinVolume
   m_TagString: Untagged
@@ -23591,6 +23587,23 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2073168868
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2073168865}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3707306c7148040e1ba92a1532f426ec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::NormalVolume
+  minVignette: 0.23
+  maxVignette: 0.8
+  minSaturation: 0
+  maxSaturation: -90
+  volume: {fileID: 11400000, guid: aa9cc971560d71247bfeb5cc15bc1d41, type: 2}
 --- !u!1001 &2078577383
 PrefabInstance:
   m_ObjectHideFlags: 0
