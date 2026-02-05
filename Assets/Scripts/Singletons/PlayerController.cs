@@ -321,7 +321,7 @@ public class PlayerController : MonoBehaviour
         ps.transform.localScale = ps.transform.localScale * scaling;
         // AG StartCoroutine(ScalePS(scaling));
 
-        if (suspicion >= suspicionThreshold)
+        if (suspicion >= suspicionThreshold && !IsBeingLynched)
         {
             Cleanup();
             moveDir = Vector2.zero;

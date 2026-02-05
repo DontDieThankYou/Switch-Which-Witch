@@ -20,7 +20,7 @@ public class EnemyActions : MonoBehaviour
     NavArea currentNavArea = null;
     bool isMoving = true;
     public bool isAccused = false;
-    public float pyreDetectDist = 10f;
+    public float pyreDetectDist = 5f;
     List<EnemyActions> villagers;
     public bool isLyncher = false;
     public int lynchedType = 0;
@@ -246,15 +246,10 @@ public class EnemyActions : MonoBehaviour
         navMeshAgent.isStopped = false;
         PickNewLocation();
         AudioManager.instance.crowdingSource.Stop();
-
-        foreach(EnemyActions g in villagers)
-        {
-            Destroy(g.gameObject);
-        }
-        villagers.Clear();
         
         if(PlayerController.instance.IsBeingLynched) GameManager.INSTANCE.BringUpMenu();
-        Debug.Log(PlayerController.instance.IsBeingLynched);
+        VillageParanoia.villagers.Remove(this.gameObject);
+        Destroy(this.gameObject);
     }
     public void BeAccused()
     {

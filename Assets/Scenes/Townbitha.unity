@@ -21098,7 +21098,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 564b8b4e2f7974cee80d851bdd040be5, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::VillagerSpawner
-  maxVillagers: 3
+  maxVillagers: 14
   villtypes:
   - {fileID: 9100000, guid: bf6f3ce6971ef8d4d9a7e240e4177df6, type: 2}
   - {fileID: 9100000, guid: 9557e6966c4a3e34f844720ed56d628c, type: 2}
